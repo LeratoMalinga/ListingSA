@@ -1,7 +1,3 @@
-<script>
-    import '../styles/global.css'
-</script>
-
 <header>
     <nav>
         <div class="logoImage">
@@ -15,30 +11,9 @@
     </nav>   
 </header>
 
-<body>
-    <div class="container">
-        <div class="infocontainer">
-        <p style="font-weight:bold; font-size:20px;">Contact</p>
-        <p>Listing SA</p>
-        <p> 1264 Melrouse CA</p>
-        <!--<div class="tellphoneinformatincontainer">
-            <p>Tel:012 093 7652</p>
-            <p>Email:info@listingsa.co.za</p>
-        </div>-->
-           
-        </div>  
-        <div class="icons">
-            <img src="/Twitter - Negative.png" alt="" width="20px"> 
-            <img src="/Instagram - Negative.png" alt="" width="20px"> 
-            <img src="/Facebook - Negative.png" alt="" width="20px"> 
-            <img src="/Google - Negative.png" alt="" width="20px"> 
-        </div>
-           
-</div>
-        
-</body>
-
-
+<main>
+    <slot></slot>
+</main>
 
 
 <style>
@@ -69,7 +44,7 @@
     }
 
    
-   .container{
+   /*.container{
     background:rgb(44,60,91);
     width:700px;
     height: 150px;
@@ -112,14 +87,4 @@
     img{
         margin-left: 0%;
     }
-    
-    body{
-        background-image:  url(/background2.jpg);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size:100% 100%;
-        
-    }
-
-
-</style>
+    </style>
