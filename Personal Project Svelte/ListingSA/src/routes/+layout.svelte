@@ -5,18 +5,19 @@
         </div>
         <div class="links">
             <a href="/">Home</a>
-            <a href="/hello">About</a>
+            <a href="/">About</a>
             <a href="/login">Login</a>
         </div>
     </nav>   
 </header>
 
+
 <main>
     <slot></slot>
 </main>
 
-
 <style>
+    
     header {
         height: 90px;
         text-align: center;
@@ -43,40 +44,6 @@
         margin-left: 2%;
     }
 
-   
-   /*.container{
-    background:rgb(44,60,91);
-    width:700px;
-    height: 150px;
-    border-radius: 15px;
-    margin-top:25%;
-    margin-left:25%;
-    padding:20px
-
-   }
-   .container p{
-    color:white;
-    
-   }
-
-   .container .icons img{
-    margin-left: 20px;
-   }
-
-   .container .icons{
-    margin-left: 36%;
-   }
-   .infocontainer{
-    position: relative;
-   }
-   
-   /*.tellphoneinformatincontainer{
-    position: relative;
-    left: 90px;
-    top:0px;
-   }*/
-   
-
     nav {
         display:flex;
         align-items:center;
@@ -87,4 +54,6 @@
     img{
         margin-left: 0%;
     }
-    </style>
+    
+
+</style>
