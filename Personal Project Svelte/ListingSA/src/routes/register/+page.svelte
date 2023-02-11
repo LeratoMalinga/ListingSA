@@ -1,43 +1,88 @@
-<script>
+<script lang="ts">
+    
+    async function subscribe (event: Event) {
+        const form = event.target as HTMLFormElement
+        const data= new FormData(form)
+
+        const email= data.get('email')
+        const password = data.get('password')
+        const confirmPassword = data.get('confirmPassword')
+        const userName = data.get('email')
+        const name = data.get('name')
+        const userRole = data.get('userRole')
+
+        const model={
+            email,
+            password,
+            confirmPassword,
+            userName,
+            name,
+            userRole
+        }
+
+        console.log(model)
+
+        await fetch ('https://localhost:7011/api/Authentification/register',{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(model)
+         })
+
+         return {
+            redirect:'/login'
+         }
+    }
+
+
 
 </script>
 
 
-<div class="loginformcontainer">
-    <form action="#!" id="main">
+<div class="registerformcontainer">
+    <form  on:submit|preventDefault={subscribe} id="main" >
         <h2>Register</h2>
     
-        <div class="input-parent">
-          <label for="username">Name:</label>
-          <input type="text" id="username">
+        <div class="form-control">
+            <div class="input-parent">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name"> 
+              </div>
         </div>
-    
+        
+      <div class="form-control">
         <div class="input-parent">
             <label for="username">Email:</label>
-            <input type="email" id="username">
+            <input type="email" id="username" name="email">
           </div>
-
-          <div class="input-parent">
-            <label for="username">Select UserRole:</label>
-            <select name="userroles" id="cars">
-                <option value="volvo">Agent</option>
-                <option value="saab">Tenant</option>
-          </div>
-         
-        <div class="input-parent">
-          <label for="password">Password:</label>
-          <input type="password" id="password">
+      </div>
+       
+        <div class="form-control">
+            <div class="input-parent">
+                <label for="userrole">Select UserRole:</label>
+                <select name="userRole" id="userroles">
+                    <option >Agent</option>
+                    <option >Tenant</option>
+              </div>
         </div>
-
-        <div class="input-parent">
-            <label for="confirmpassword"> Confirm Password:</label>
-            <input type="password" id="password">
-          </div>
-    
+         
+        <div class="form-control">
+            <div class="input-parent">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name=password>
+              </div>
+        </div>
+        
+        <div class="form-control">
+            <div class="input-parent">
+                <label for="confirmpassword"> Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+              </div>
+        
+        </div>
+        
         <button type="submit">Register</button>
-        <!--<div class="linkcontainer">
-            <p>Don't have an account?</p><a href="/register"><p>Register Here</p></a>
-        </div>-->
         
       </form>
 

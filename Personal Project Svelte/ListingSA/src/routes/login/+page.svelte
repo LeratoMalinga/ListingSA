@@ -1,26 +1,46 @@
-<script>
+<script lang="ts">
 
+ async function subscribe (event: Event) {
+        const form = event.target as HTMLFormElement
+        const data= new FormData(form)
+
+        const email= data.get('email')
+        const password = data.get('password')
+        
+        const model ={
+            email,
+            password
+        }
+
+        await fetch ('https://localhost:7011/api/Authentification/login',{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(model)
+         })
+ }
 </script>
 
 
 
 <div class="loginformcontainer">
-    <form action="#!" id="main">
+    <form on:submit|preventDefault={subscribe}  id="main">
         <h2>Login</h2>
     
         <div class="input-parent">
           <label for="username">Email:</label>
-          <input type="text" id="username">
+          <input type="email" id="username" name="email">
         </div>
     
         <div class="input-parent">
           <label for="password">Password:</label>
-          <input type="password" id="password">
+          <input type="password" id="password" name="password">
         </div>
     
         <button type="submit">Login</button>
         <div class="linkcontainer">
-            <p>Don't have an account?</p><a href="/register"><p>Register Here</p></a>
+            <p>Don't have an account? <a href="/register">Register Here</a></p>
         </div>
         
       </form>
@@ -113,9 +133,8 @@ button:focus {
     box-shadow: 0px 0px 0px 3px black;
 }
 
-
-
-   
-
+.linkcontainer{
+    margin-top: 5%;
+}
 
 </style>

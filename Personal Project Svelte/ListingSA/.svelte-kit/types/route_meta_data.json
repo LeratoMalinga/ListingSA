@@ -1,5 +1,7 @@
 {
 	"/": [],
+	"/AgentDashboard": [],
+	"/TenantDashboard": [],
 	"/login": [],
 	"/register": []
 }

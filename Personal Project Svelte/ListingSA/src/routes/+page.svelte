@@ -5,7 +5,7 @@
 
 <body>
     
-    <!-- <img src="/Logohome2.png" alt ="logo" width="90px" height="90px"> -->
+   
     <div class="container">
         <div class="infocontainer">
         <p style="font-weight:bold; font-size:20px;">Contact</p>
