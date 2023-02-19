@@ -1,9 +1,36 @@
 <script lang="ts">
+    import {z} from 'zod'
+    import toast, { Toaster } from 'svelte-french-toast';
+
+    let error=""
     
+    //form Validation
+ const registerSchema = z.object ({
+    name: z.string({required_error:'Name is required'}),
+    email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
+    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim(),
+    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim()
+ })
+ .superRefine(({confirmPassword,password}, ctx) => {
+        if(confirmPassword !== password){
+            ctx.addIssue({
+            code: 'custom', 
+            message:'Password and Confirm Password must match',
+            path: ['password']
+        });
+        ctx.addIssue({
+            code: 'custom', 
+            message:'Password and Confirm Password must match',
+            path: ['confirmPassword']
+        });
+    }
+       
+        });
+
     async function subscribe (event: Event) {
         const form = event.target as HTMLFormElement
         const data= new FormData(form)
-
+         
         const email= data.get('email')
         const password = data.get('password')
         const confirmPassword = data.get('confirmPassword')
@@ -20,9 +47,24 @@
             userRole
         }
 
-        console.log(model)
+        try {
+            const result = registerSchema.parse(model)
+            console.log('SUCCESS')
+            console.log(result)
+        } catch (err) {  
+            console.log(err)
+            const {fieldErrors: errors} = err.flatten()
+            const {name,email,password,confirmPassword, ...rest} = model;
+            return {
+                data:rest,
+                errors
+            };
+        }
 
-        await fetch ('https://localhost:7011/api/Authentification/register',{
+
+        console.log(model)
+        error =""
+       const response = await fetch ('https://localhost:7011/api/Authentification/register',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -30,74 +72,93 @@
             body:JSON.stringify(model)
          })
 
-         return {
-            redirect:'/login'
+         if (response.ok)
+         {
+            // toast.success("Registration was a success")
+            return window.location.href = "/login"
+         } 
+         else {
+            const result = await response.json()
+            error = result.error
+            toast.error('Server error')
          }
+            
+    
+        
+        
+         
     }
 
-
+   
 
 </script>
+<Toaster/>
 
-
-<div class="registerformcontainer">
-    <form  on:submit|preventDefault={subscribe} id="main" >
-        <h2>Register</h2>
-    
-        <div class="form-control">
-            <div class="input-parent">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name"> 
-              </div>
+<header>
+    <nav>
+        <div class="logoImage">
+            <img src="/Logohome2.png" alt ="logo" width="90px" height="90px">
         </div>
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/">About</a>
+            <a href="/login">Login</a>
+        </div>
+    </nav>   
+</header>
+
+<body>
+    <div class="registerformcontainer">
+        <form  on:submit|preventDefault={subscribe} id="main" >
+            <h2>Register</h2>
         
-      <div class="form-control">
-        <div class="input-parent">
-            <label for="username">Email:</label>
-            <input type="email" id="username" name="email">
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"> 
+                  </div>
+            </div>
+            
+          <div class="form-control">
+            <div class="input-parent">
+                <label for="username">Email:</label>
+                <input type="email" id="username" name="email">
+              </div>
           </div>
-      </div>
-       
-        <div class="form-control">
-            <div class="input-parent">
-                <label for="userrole">Select UserRole:</label>
-                <select name="userRole" id="userroles">
-                    <option >Agent</option>
-                    <option >Tenant</option>
-              </div>
-        </div>
-         
-        <div class="form-control">
-            <div class="input-parent">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name=password>
-              </div>
-        </div>
-        
-        <div class="form-control">
-            <div class="input-parent">
-                <label for="confirmpassword"> Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword">
-              </div>
-        
-        </div>
-        
-        <button type="submit">Register</button>
-        
-      </form>
-
-</div>
+           
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="userrole">Select UserRole:</label>
+                    <select name="userRole" id="userroles">
+                        <option >Agent</option>
+                        <option >Tenant</option>
+                  </div>
+            </div>
+             
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name=password>
+                  </div>
+            </div>
+            
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="confirmpassword"> Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                  </div>
+            
+            </div>
+            
+            <button type="submit">Register</button>
+            
+          </form>
+    
+    </div>
+    
+</body>
 
 <style>
-
-/*.loginformcontainer{
-    background: grey;
-    width: 374px;
-    height:500px;
-    margin-top: 10%;
-    margin-left: 36%;
-
-}*/
 
 
 *,
@@ -198,7 +259,51 @@ button:focus {
 }
 
 
+header {
+        height: 90px;
+        text-align: center;
+        background:rgb(96.1%, 96.1%, 96.1%);
+        padding-left: 0%;
+    
+    
+    }
+    .links{
+        margin-left:auto;
+        margin-top: 0px;
+        margin-right: 0%;
+        
+    }
+    a {
+        margin-left: 40px;
+        margin-bottom: 20px;
+        color: black;
+    
+        
+    }
 
+    .logoImage{
+        margin-left: 2%;
+    }
+
+    nav {
+        display:flex;
+        align-items:center;
+        max-width: 90%;
+        margin :0 auto;
+        margin-left:0;
+    }
+    img{
+        margin-left: 0%;
+    }
+
+    body{
+        background-image:  url(/bgimage2.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        background-size:100% 100%;
+       
+    }
+    
    
 
 

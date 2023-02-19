@@ -1,51 +1,116 @@
 <script lang="ts">
+ import toast, { Toaster } from 'svelte-french-toast';
+ import {z} from 'zod'    
 
- async function subscribe (event: Event) {
+//  export let form;
+ export let form;
+ 
+  async function subscribe (event: Event) {
         const form = event.target as HTMLFormElement
-        const data= new FormData(form)
+        const data = new FormData(form)
 
         const email= data.get('email')
         const password = data.get('password')
+
+        
         
         const model ={
             email,
             password
         }
+        
+        try {
+            const result = loginSchema.parse(model)
+            console.log('SUCCESS')
+            console.log(result)
+        } catch (err) {
+            console.log(err)
+            const {fieldErrors: errors} = err.flatten()
+            const {email,password, ...rest} = model;
+            return {
+                data:rest,
+                errors
+            };
+        }
 
-        await fetch ('https://localhost:7011/api/Authentification/login',{
+
+       const response = await fetch ('https://localhost:7011/api/Authentification/login',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
             },
+            //credentials:'include',
             body:JSON.stringify(model)
          })
+
+         if(response.ok)
+         {
+            toast.success("Login successful")
+            return window.location.href = "/AgentDashboard"
+            // throw redirect(303,'/AgentDashBoard')
+         }
+         else
+         toast.error('Server error')
  }
+
+ //form Validation
+ const loginSchema = z.object ({
+    email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
+    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim()
+ });
+
+ 
 </script>
+<Toaster/>
 
+<header>
+    <nav>
+        <div class="logoImage">
+            <img src="/Logohome2.png" alt ="logo" width="90px" height="90px">
+        </div>
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="/">About</a>
+            <a href="/login">Login</a>
+        </div>
+    </nav>   
+</header>
 
-
-<div class="loginformcontainer">
-    <form on:submit|preventDefault={subscribe}  id="main">
-        <h2>Login</h2>
-    
-        <div class="input-parent">
-          <label for="username">Email:</label>
-          <input type="email" id="username" name="email">
-        </div>
-    
-        <div class="input-parent">
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password">
-        </div>
-    
-        <button type="submit">Login</button>
-        <div class="linkcontainer">
-            <p>Don't have an account? <a href="/register">Register Here</a></p>
-        </div>
+<body>
+    <div class="loginformcontainer">
+        <form on:submit|preventDefault={subscribe}  id="main">
+            <h2>Login</h2>
         
-      </form>
+            <div class="input-parent">
+              <label for="username">Email:</label>
+              <input type="email" id="username" name="email">
+              <label for="email">
+                {#if form?.errors?.email}
+                <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
+                {/if}
+              </label>
+            </div>
+        
+            <div class="input-parent">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password">
+              <label for="password">
+                {#if form?.errors?.password}
+                <span class="label-text-alt text-error">{form?.errors?.password[0]}</span>
+                {/if}
+              </label>
+            </div>
+        
+            <button type="submit">Login</button>
+            <div class="linkcontainer">
+                <p>Don't have an account? <a class="registerlink" href="/register">Register Here</a></p>
+            </div>
+            
+          </form>
+    
+    </div>
+</body>
 
-</div>
 
 <style>
 
@@ -136,5 +201,56 @@ button:focus {
 .linkcontainer{
     margin-top: 5%;
 }
+
+
+header {
+        height: 90px;
+        text-align: center;
+        background:rgb(96.1%, 96.1%, 96.1%);
+        padding-left: 0%;
+    
+    
+    }
+    .links{
+        margin-left:auto;
+        margin-top: 0px;
+        margin-right: 0%;
+        
+    }
+    a {
+        margin-left: 40px;
+        margin-bottom: 20px;
+        color: black;
+    
+        
+    }
+
+    .registerlink{
+        margin-left: 10px;
+    }
+    .logoImage{
+        margin-left: 2%;
+    }
+
+    nav {
+        display:flex;
+        align-items:center;
+        max-width: 90%;
+        margin :0 auto;
+        margin-left:0;
+    }
+    img{
+        margin-left: 0%;
+    }
+
+    
+    body{
+        background-image:  url(/bgimage2.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        background-size:100% 100%;
+       
+    }
+    
 
 </style>

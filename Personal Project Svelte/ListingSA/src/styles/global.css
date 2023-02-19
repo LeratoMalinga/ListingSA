@@ -3,5 +3,18 @@ body {
 }
 
 button{
-    background: rgb(0,150,155);
+padding: 10px 18px;
+font-size: 15px;
+background: rgb(0,150,155);
+width: 100%;
+border: none;
+border-radius: 4px;
+color: white;
+transition: all 0.2s ease;
+}
+button:hover {
+opacity: 0.9;
+}
+button:focus {
+box-shadow: 0px 0px 0px 3px black;
 }
