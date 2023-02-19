@@ -2,16 +2,20 @@
     import {z} from 'zod'
     import toast, { Toaster } from 'svelte-french-toast';
 
-    let error=""
-    
+   export let form;
+
+   let error=""
+  
     //form Validation
  const registerSchema = z.object ({
     name: z.string({required_error:'Name is required'}),
     email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
-    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim(),
-    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim()
+    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'})
+    .max(6,{message:'Must be at 6 characters'}).trim(),
+    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(8,{message:'Must be at least 6 characters'})
+    .max(8,{message:'Must be at 6 characters'}).trim()
  })
- .superRefine(({confirmPassword,password}, ctx) => {
+ .superRefine(({ confirmPassword,password }, ctx) => {
         if(confirmPassword !== password){
             ctx.addIssue({
             code: 'custom', 
@@ -80,16 +84,10 @@
          else {
             const result = await response.json()
             error = result.error
-            toast.error('Server error')
+            toast.error('Server Error')
          }
-            
-    
-        
-        
-         
+                
     }
-
-   
 
 </script>
 <Toaster/>
@@ -116,13 +114,23 @@
                 <div class="input-parent">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name"> 
+                    <label for="name">
+                        {#if form?.errors?.name}
+                        <span class="label-text-alt text-error">{form?.errors?.name[0]}</span>
+                        {/if}
+                      </label>
                   </div>
             </div>
             
           <div class="form-control">
             <div class="input-parent">
-                <label for="username">Email:</label>
+                <label for="email">Email:</label>
                 <input type="email" id="username" name="email">
+                <label for="password">
+                    {#if form?.errors?.email}
+                    <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
+                    {/if}
+                  </label>
               </div>
           </div>
            
@@ -139,6 +147,11 @@
                 <div class="input-parent">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name=password>
+                    <label for="password">
+                        {#if form?.errors?.password}
+                        <span class="label-text-alt text-error">{form?.errors?.password[0]}</span>
+                        {/if}
+                      </label>
                   </div>
             </div>
             
@@ -146,6 +159,11 @@
                 <div class="input-parent">
                     <label for="confirmpassword"> Confirm Password:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword">
+                    <label for="password">
+                        {#if form?.errors?.confirmPassword}
+                        <span class="label-text-alt text-error">{form?.errors?.confirmPassword[0]}</span>
+                        {/if}
+                      </label>
                   </div>
             
             </div>

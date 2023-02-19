@@ -19,6 +19,8 @@
     <h1>Welcome to Your Agent DashBoard </h1>
 </div>
 
+<button class="btnupdateproperty">Add Property</button>
+
 <div class="cardcontainer">
 <div class="imagecontainer">
 </div>
@@ -44,26 +46,33 @@
         <button class="btnaddproperty">Update</button>
         </div>
         
-
+        <div class="cardcontainer">
+            <div class="imagecontainer">
+            </div>
+            <p>1253 Brooklyn ca,Pretoria</p>
+            <p>R6,500</p>
+            <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a>
+            <button class="btnaddproperty">Update</button>
+            </div>
 <style>
 .cardcontainer{
-    position: relative;
-width: 300px;
+position: relative;
+width: 250px;
 height: 488px;
 left: 53px;
 margin: 20px;
 margin-left: 5%;
-margin-top: 3%;
+margin-top: 12%;
 background: #FFFFFF;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 15px 15px 0px 0px;
 float: left;
 }
 .headingcontainer{
-background: rgb(44,60,91);
+background: white;
 width: 500px;
-height:100px;
-margin-left:30%;
+height:10px;
+margin-left:32%;
 padding: 20px;
 padding-top: 40px;
 margin-top: 20px;
@@ -80,7 +89,7 @@ background: rgb(0,150,155);
 position: absolute;
 width: 120px;
 height: 42px;
-left: 52%;
+left: 45%;
 bottom: 2%;
 padding: 10px 18px;
 border: none;
@@ -88,8 +97,23 @@ border-radius: 4px;
 color: white;
 transition: all 0.2s ease;
 }
+.btnupdateproperty{
+font-size: 15px;
+background: rgb(0,150,155);
+position: absolute;
+width: 120px;
+height: 42px;
+left: 45%;
+top:35%;
+margin-bottom: 40px;
+padding: 10px ;
+border: none;
+border-radius: 4px;
+color: white;
+transition: all 0.2s ease;
+}
 .imagecontainer{
-width: 300px;
+width: 250px;
 height: 230px;
 
 
@@ -99,7 +123,7 @@ background-repeat:no-repeat;
 }
 
 h1{
-    color: white;
+    color: black;
 
 }
 header {

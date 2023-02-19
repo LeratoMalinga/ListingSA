@@ -18,7 +18,13 @@
             email,
             password
         }
-        
+        //form Validation
+       const loginSchema = z.object ({
+        email: z.string({ required_error:'Email is required'}).email({message: 'This is not a valid email'}),
+        password: z.string({ required_error:'Password is required'}).min(8,{message:'Must be at least 6 characters'})
+        .max(8,{message:'Must be at 6 characters'}).trim()
+            });
+
         try {
             const result = loginSchema.parse(model)
             console.log('SUCCESS')
@@ -33,7 +39,6 @@
             };
         }
 
-
        const response = await fetch ('https://localhost:7011/api/Authentification/login',{
             method:'POST',
             headers:{
@@ -45,19 +50,13 @@
 
          if(response.ok)
          {
-            toast.success("Login successful")
+            // toast.success("Login successful")
             return window.location.href = "/AgentDashboard"
             // throw redirect(303,'/AgentDashBoard')
          }
          else
-         toast.error('Server error')
+         toast.error('Invalid Email Or Password')
  }
-
- //form Validation
- const loginSchema = z.object ({
-    email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
-    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'}).max(6,{message:'Must be at 6 characters'}).trim()
- });
 
  
 </script>
@@ -124,9 +123,10 @@
     box-sizing: border-box;
 }
 #main {
-    top:30%;
+    margin-top: 40%;
+    top:40%;
     width: 350px;
-    height:480px;
+    height:fit-content;
     margin: 40px auto;
     font-family: "Segoe UI", sans-serif;
     padding: 25px 28px;
@@ -251,6 +251,7 @@ header {
         background-size:100% 100%;
        
     }
+
     
 
 </style>
