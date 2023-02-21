@@ -1,8 +1,11 @@
 <script lang="ts">
+
+
+    export let form;
+
     import {z} from 'zod'
     import toast, { Toaster } from 'svelte-french-toast';
 
-   export let form;
 
    let error=""
   
@@ -89,7 +92,9 @@
                 
     }
 
+
 </script>
+
 <Toaster/>
 
 <header>
@@ -108,11 +113,11 @@
 <body>
     <div class="registerformcontainer">
         <form  on:submit|preventDefault={subscribe} id="main" >
-            <h2>Register</h2>
+            <h2>Add Property</h2>
         
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="name">Name:</label>
+                    <label for="propertyname"> Property Name:</label>
                     <input type="text" id="name" name="name"> 
                     <label for="name">
                         {#if form?.errors?.name}
@@ -124,8 +129,8 @@
             
           <div class="form-control">
             <div class="input-parent">
-                <label for="email">Email:</label>
-                <input type="email" id="username" name="email">
+                <label for="propertyname">Price:</label>
+                <input type="text" id="number" name="email">
                 <label for="password">
                     {#if form?.errors?.email}
                     <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
@@ -136,39 +141,90 @@
            
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="userrole">Select UserRole:</label>
-                    <select name="userRole" id="userroles">
-                        <option >Agent</option>
-                        <option >Tenant</option>
+                    <label for="province">Select Province:</label>
+                    <select name="province" id="userroles">
+                        <option >Gauteng</option>
+                        <option >Limpopo</option>
+                        <option >Free State</option>
+                        <option >Western Cape</option>
+                        <option >Northeren Cape</option>
+                        <option >North West</option>
+                        <option >Mpumalanga</option>
+                        <option >Kwa-Zulu-Natal</option>
+                        <option >Estern Cape</option>
+                  </div>
+            </div>
+
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="city">Select a City:</label>
+                    <select name="city" id="city">
+                        <option >Pretoria</option>
+                        <option >Durban</option>
+                        <option >Cape Town</option>
+                        <option >Western Cape</option>
+                        <option >Northeren Cape</option>
+                        <option >North West</option>
+                        <option >Mpumalanga</option>
+                        <option >Kwa-Zulu-Natal</option>
+                        <option >Estern Cape</option>
                   </div>
             </div>
              
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name=password>
-                    <label for="password">
-                        {#if form?.errors?.password}
-                        <span class="label-text-alt text-error">{form?.errors?.password[0]}</span>
-                        {/if}
-                      </label>
+                    <label for="city">Select a Surburb:</label>
+                    <select name="city" id="city">
+                        <option >Hatfield</option>
+                        <option >Midrand</option>
+                        <option >Rosebank</option>
+                        <option >Wapadrand</option>
+                        <option >Braamfontein</option>
+                        <option >North West</option>
+                        <option >Mpumalanga</option>
+                        <option >Kwa-Zulu-Natal</option>
+                        <option >Estern Cape</option>
                   </div>
             </div>
-            
+
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="confirmpassword"> Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword">
+                    <label for="city">Property Type:</label>
+                    <select name="city" id="city">
+                        <option >TownHouse</option>
+                        <option >Liv</option>
+                        <option >Free State</option>
+                       
+                  </div>
+            </div>
+             
+            <div class="form-control">
+                <div class="input-parent">
+                    <label for="propertyname">Address</label>
+                    <input type="text" id="address" name="address">
                     <label for="password">
-                        {#if form?.errors?.confirmPassword}
-                        <span class="label-text-alt text-error">{form?.errors?.confirmPassword[0]}</span>
+                        {#if form?.errors?.email}
+                        <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
                         {/if}
                       </label>
                   </div>
+              </div>
             
-            </div>
-            
-            <button type="submit">Register</button>
+              <div class="form-control">
+                <div class="input-parent">
+                    <label for="propertyname">Property Picture:</label>
+                    <input type="file" id="propertypicture" name="propertypicture">
+                    <label for="password">
+                        {#if form?.errors?.email}
+                        <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
+                        {/if}
+                      </label>
+                  </div>
+              </div>
+           
+           
+            <button type="submit">Add Property</button>
+         
             
           </form>
     
@@ -190,7 +246,7 @@
 #main {
     top:30%;
     width: 350px;
-    height:620px;
+    height:fit-content;
     margin: 40px auto;
     font-family: "Segoe UI", sans-serif;
     padding: 25px 28px;

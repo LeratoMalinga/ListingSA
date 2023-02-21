@@ -19,7 +19,8 @@
     <h1>Welcome to Your Agent DashBoard </h1>
 </div>
 
-<button class="btnupdateproperty">Add Property</button>
+<a class="addproperty" href="/AddProperty"><button class="btnupdateproperty">Add Property</button></a>
+
 
 <div class="cardcontainer">
 <div class="imagecontainer">
@@ -42,7 +43,7 @@
         </div>
         <p>1253 Brooklyn ca,Pretoria</p>
         <p>R6,500</p>
-        <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a>
+        <!-- <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a> -->
         <button class="btnaddproperty">Update</button>
         </div>
         
@@ -51,7 +52,7 @@
             </div>
             <p>1253 Brooklyn ca,Pretoria</p>
             <p>R6,500</p>
-            <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a>
+            <!-- <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a> -->
             <button class="btnaddproperty">Update</button>
             </div>
 <style>

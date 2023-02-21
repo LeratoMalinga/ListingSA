@@ -120,7 +120,7 @@ header {
 
     
      body{
-        background-image:  url(/bgimage2.jpg);
+        background-image:  url(/background.jpg);
         background-repeat: no-repeat;
         background-attachment: fixed; 
         background-size:100% 100%;
