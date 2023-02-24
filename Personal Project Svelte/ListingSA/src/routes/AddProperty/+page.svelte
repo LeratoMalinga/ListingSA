@@ -12,46 +12,34 @@
     //form Validation
  const registerSchema = z.object ({
     name: z.string({required_error:'Name is required'}),
-    email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
-    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'})
-    .max(6,{message:'Must be at 6 characters'}).trim(),
-    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(8,{message:'Must be at least 6 characters'})
-    .max(8,{message:'Must be at 6 characters'}).trim()
+    price: z.string({required_error:'price is required'}),
+    city: z.string({required_error:'City is required'}),
+    suburb: z.string({required_error:'Suburb is required'}),
+    province: z.string({required_error:'Province is required'}),
+    type: z.string({required_error:'Type is required'}),
+    address: z.string({required_error:'Address is required'}), 
  })
- .superRefine(({ confirmPassword,password }, ctx) => {
-        if(confirmPassword !== password){
-            ctx.addIssue({
-            code: 'custom', 
-            message:'Password and Confirm Password must match',
-            path: ['password']
-        });
-        ctx.addIssue({
-            code: 'custom', 
-            message:'Password and Confirm Password must match',
-            path: ['confirmPassword']
-        });
-    }
-       
-        });
 
     async function subscribe (event: Event) {
         const form = event.target as HTMLFormElement
         const data= new FormData(form)
          
-        const email= data.get('email')
-        const password = data.get('password')
-        const confirmPassword = data.get('confirmPassword')
-        const userName = data.get('email')
-        const name = data.get('name')
-        const userRole = data.get('userRole')
+        const name= data.get('name')
+        const price = data.get('price')
+        const city = data.get('city')
+        const suburb= data.get('suburb')
+        const province = data.get('province')
+        const type = data.get('type')
+        const  address = data.get('address')
 
         const model={
-            email,
-            password,
-            confirmPassword,
-            userName,
             name,
-            userRole
+            province,
+            city,
+            suburb,
+            price,
+            address,
+            type
         }
 
         try {
@@ -61,7 +49,7 @@
         } catch (err) {  
             console.log(err)
             const {fieldErrors: errors} = err.flatten()
-            const {name,email,password,confirmPassword, ...rest} = model;
+            const {name,province,city,suburb,price,address,type,...rest} = model;
             return {
                 data:rest,
                 errors
@@ -71,7 +59,7 @@
 
         console.log(model)
         error =""
-       const response = await fetch ('https://localhost:7011/api/Authentification/register',{
+       const response = await fetch ('https://localhost:7011/api/Property/AddProperty',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -82,7 +70,7 @@
          if (response.ok)
          {
             // toast.success("Registration was a success")
-            return window.location.href = "/login"
+            return window.location.href = "/AgentDashboard"
          } 
          else {
             const result = await response.json()
@@ -94,7 +82,6 @@
 
 
 </script>
-
 <Toaster/>
 
 <header>
@@ -130,19 +117,19 @@
           <div class="form-control">
             <div class="input-parent">
                 <label for="propertyname">Price:</label>
-                <input type="text" id="number" name="email">
-                <label for="password">
+                <input type="text" id="number" name="price">
+                <!-- <label for="password">
                     {#if form?.errors?.email}
                     <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
                     {/if}
-                  </label>
+                  </label> -->
               </div>
           </div>
            
             <div class="form-control">
                 <div class="input-parent">
                     <label for="province">Select Province:</label>
-                    <select name="province" id="userroles">
+                    <select name="province" id="province">
                         <option >Gauteng</option>
                         <option >Limpopo</option>
                         <option >Free State</option>
@@ -173,28 +160,27 @@
              
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="city">Select a Surburb:</label>
-                    <select name="city" id="city">
+                    <label for="surburb">Select a Surburb:</label>
+                    <select name="suburb" id="suburb">
                         <option >Hatfield</option>
                         <option >Midrand</option>
                         <option >Rosebank</option>
                         <option >Wapadrand</option>
                         <option >Braamfontein</option>
-                        <option >North West</option>
-                        <option >Mpumalanga</option>
-                        <option >Kwa-Zulu-Natal</option>
-                        <option >Estern Cape</option>
+                        <option >Colaid</option>
+                        <option >Dubani</option>
+                        <option >Zimbali</option>
+                        <option >Capina</option>
                   </div>
             </div>
 
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="city">Property Type:</label>
-                    <select name="city" id="city">
+                    <label for="type">Property Type:</label>
+                    <select name="type" id="type">
                         <option >TownHouse</option>
-                        <option >Liv</option>
-                        <option >Free State</option>
-                       
+                        <option >Flat</option>
+                        <option >Commune</option>
                   </div>
             </div>
              

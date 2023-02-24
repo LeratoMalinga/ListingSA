@@ -10,9 +10,9 @@
  const registerSchema = z.object ({
     name: z.string({required_error:'Name is required'}),
     email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
-    password: z.string({required_error:'Password is required'}).min(6,{message:'Must be at least 6 characters'})
-    .max(6,{message:'Must be at 6 characters'}).trim(),
-    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(8,{message:'Must be at least 6 characters'})
+    password: z.string({required_error:'Password is required'}).min(8,{message:'Must be at least 8 characters'})
+    .max(8,{message:'Must be at 6 characters'}).trim(),
+    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(8,{message:'Must be at least 8 characters'})
     .max(8,{message:'Must be at 6 characters'}).trim()
  })
  .superRefine(({ confirmPassword,password }, ctx) => {
@@ -318,12 +318,7 @@ header {
         background-image:  url(/background.jpg);
         background-repeat: no-repeat;
         background-attachment: fixed; 
-        background-size:100% 100%;
-       
+        background-size:100% 100%;   
     }
     
-   
-
-
-
 </style>
