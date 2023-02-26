@@ -1,6 +1,15 @@
 <script>
+ const getProperties = async () => {
+    const res = await fetch ("https://localhost:7011/api/Property/GetProperties");
+    const data = await res.json();
 
+    return data;
+
+    console.log(data)
+ };
+ 
 </script>
+
 
 <header>
     <nav>
@@ -21,40 +30,20 @@
 
 <a class="addproperty" href="/AddProperty"><button class="btnupdateproperty">Add Property</button></a>
 
+{#await getProperties()}
 
+{:then data}
+{#each data as Property }
 <div class="cardcontainer">
 <div class="imagecontainer">
 </div>
-<p>1253 Brooklyn ca,Pretoria</p>
-<p>R6,500</p>
+<p>{Property.name},{Property.city}</p>
+<p>R{Property.price}</p>
 <button class="btnaddproperty">Update</button>
 </div>
+{/each}
+{/await}
 
-<div class="cardcontainer">
-    <div class="imagecontainer">
-    </div>
-    <p>1253 Brooklyn ca,Pretoria</p>
-    <p>R6,500</p>
-    <button class="btnaddproperty">Update</button>
-    </div>
-
-    <div class="cardcontainer">
-        <div class="imagecontainer">
-        </div>
-        <p>1253 Brooklyn ca,Pretoria</p>
-        <p>R6,500</p>
-        <!-- <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a> -->
-        <button class="btnaddproperty">Update</button>
-        </div>
-        
-        <div class="cardcontainer">
-            <div class="imagecontainer">
-            </div>
-            <p>1253 Brooklyn ca,Pretoria</p>
-            <p>R6,500</p>
-            <!-- <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a> -->
-            <button class="btnaddproperty">Update</button>
-            </div>
 <style>
 .cardcontainer{
 position: relative;
@@ -118,7 +107,7 @@ width: 250px;
 height: 230px;
 
 
-background: url(/background.jpg);
+background: url(/photo-1600596542815-ffad4c1539a9.jpeg);
 border-radius: 15px 15px 0px 0px;
 background-repeat:no-repeat;
 }

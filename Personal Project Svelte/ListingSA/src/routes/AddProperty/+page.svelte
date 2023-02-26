@@ -160,7 +160,7 @@
              
             <div class="form-control">
                 <div class="input-parent">
-                    <label for="surburb">Select a Surburb:</label>
+                    <label for="suburb">Select a Surburb:</label>
                     <select name="suburb" id="suburb">
                         <option >Hatfield</option>
                         <option >Midrand</option>
