@@ -1,6 +1,26 @@
-<script>
+<!-- <script context="module">
+    export const load = async ({fetch}) => {
+        const res = await fetch("https://localhost:7011/api/Property/GetProperties");
 
+        const properties = await res.json();
+        return{
+            props:{
+                properties,
+            },
+        };
+    };
+</script> -->
+
+
+<script>
+ const  getProperties = async ()  =>
+ {
+    const res = await fetch("https://localhost:7011/api/Property/GetProperties");
+    const data = await res.json();
+    return data;
+ }
 </script>
+{#await getProperties()}
 
 <header>
     <nav>
@@ -19,39 +39,21 @@
     <h1>Welcome to Your Tenant DashBoard </h1>
 </div>
 
+
+{:then data}
+
 <div class="cardcontainer">
+{#each data as property}
 <div class="imagecontainer">
 </div>
-<p>1253 Brooklyn ca,Pretoria</p>
-<p>R6,500</p>
+<p>{property.address},{property.city}</p>
+<p>R{property.price}</p>
 <button class="btnaddproperty">Contact</button>
+{/each}
 </div>
 
-<div class="cardcontainer">
-    <div class="imagecontainer">
-    </div>
-    <p>1253 Brooklyn ca,Pretoria</p>
-    <p>R6,500</p>
-    <button class="btnaddproperty">Contact</button>
-    </div>
+{/await}
 
-    <div class="cardcontainer">
-        <div class="imagecontainer">
-        </div>
-        <p>1253 Brooklyn ca,Pretoria</p>
-        <p>R6,500</p>
-        <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a>
-        <button class="btnaddproperty">Contact</button>
-        </div>
-        
-        <div class="cardcontainer">
-            <div class="imagecontainer">
-            </div>
-            <p>1253 Brooklyn ca,Pretoria</p>
-            <p>R6,500</p>
-            <a href="https://www.flaticon.com/free-icons/bed" title="bed icons">5</a>
-            <button class="btnaddproperty">Contact</button>
-            </div>
 <style>
 .cardcontainer{
     position: relative;

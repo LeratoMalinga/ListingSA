@@ -1,7 +1,9 @@
 {
 	"/": [],
 	"/AddProperty": [],
-	"/AgentDashboard": [],
+	"/AgentDashboard": [
+		"src/routes/AgentDashboard/+page.server.ts"
+	],
 	"/TenantDashboard": [],
 	"/login": [],
 	"/register": []

@@ -20,6 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"mkcert": "^1.5.1",
 		"svelte-french-toast": "^1.0.3",
 		"zod": "^3.20.6"
 	}

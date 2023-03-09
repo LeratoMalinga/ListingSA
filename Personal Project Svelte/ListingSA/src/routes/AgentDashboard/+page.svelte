@@ -1,13 +1,29 @@
-<script>
- const getProperties = async () => {
-    const res = await fetch ("https://localhost:7011/api/Property/GetProperties");
-    const data = await res.json();
+<script lang="ts">
+   
+    import { createSearchStore, searchHandler } from '$lib/stores/search';
+	import { onDestroy } from 'svelte';
+   
+	import type { PageData } from './$types';
+    
+	export let data :PageData;
 
-    return data;
-
-    console.log(data)
- };
- 
+	type Property = {
+		name: string;
+		city: string;
+		type: string;
+		suburb: string;
+        price:string
+		searchTerms: string;
+	};
+	const searchProducts: Property[] = data.products.Map((property: Property) => ({
+		...property,
+		searchTerms: `${property.city} ${property.name} ${property.type} ${property.suburb}`
+	}));
+	const searchStore = createSearchStore(searchProducts);
+	const unsubscribe = searchStore.subscribe((model) => searchHandler(model));
+	onDestroy(() => {
+		unsubscribe();
+	});
 </script>
 
 
@@ -25,24 +41,27 @@
 </header>
 
 <div class="headingcontainer">
-    <h1>Welcome to Your Agent DashBoard </h1>
+    <h1>Welcome to Your Agent DashBoard</h1>
 </div>
 
 <a class="addproperty" href="/AddProperty"><button class="btnupdateproperty">Add Property</button></a>
 
-{#await getProperties()}
+<div class="searchcontainer">
+    <h1>Search/Filter</h1>
+	<input type="search" placeholder="Search..."  bind:value={$searchStore.search} />
+</div>
 
-{:then data}
-{#each data as Property }
+
 <div class="cardcontainer">
+<!-- {#each $searchStore.filtered as property} -->
 <div class="imagecontainer">
 </div>
-<p>{Property.name},{Property.city}</p>
-<p>R{Property.price}</p>
+<p>property.name,property.city</p>
+<p>Rproperty.price</p>
 <button class="btnaddproperty">Update</button>
+<!-- {/each} -->
 </div>
-{/each}
-{/await}
+
 
 <style>
 .cardcontainer{
@@ -153,7 +172,11 @@ header {
         margin-left: 0%;
     }
 
-    
+    .searchcontainer{
+        position: absolute;
+        margin-left: 40%;
+        top: 40%;
+    }
      /* body{
         background-image:  url(/bgimage2.jpg);
         background-repeat: no-repeat;
