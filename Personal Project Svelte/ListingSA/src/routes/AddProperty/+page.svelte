@@ -356,14 +356,16 @@ header {
         margin-left: 0%;
     }
 
-    body{
+     body{
         background-image:  url(/background.jpg);
         background-repeat: no-repeat;
         background-attachment: fixed; 
         background-size:100% 100%;
+        margin:0%;
+        padding:0%;
        
-    }
-    
+    } 
+     
    
 
 

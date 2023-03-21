@@ -1,9 +1,9 @@
 {
 	"/": [],
 	"/AddProperty": [],
-	"/AgentDashboard": [
-		"src/routes/AgentDashboard/+page.server.ts"
-	],
+	"/AgentDashboard": [],
+	"/ChatMessage": [],
+	"/Chat": [],
 	"/TenantDashboard": [],
 	"/login": [],
 	"/register": []

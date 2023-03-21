@@ -56,7 +56,7 @@
 
 <style>
 .cardcontainer{
-    position: relative;
+position: relative;
 width: 250px;
 height: 488px;
 left: 53px;
@@ -100,8 +100,6 @@ transition: all 0.2s ease;
 .imagecontainer{
 width: 250px;
 height: 230px;
-
-
 background: url(/background.jpg);
 border-radius: 15px 15px 0px 0px;
 background-repeat:no-repeat;

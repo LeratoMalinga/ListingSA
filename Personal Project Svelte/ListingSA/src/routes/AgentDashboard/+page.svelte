@@ -1,29 +1,39 @@
 <script lang="ts">
-   
-    import { createSearchStore, searchHandler } from '$lib/stores/search';
-	import { onDestroy } from 'svelte';
-   
-	import type { PageData } from './$types';
-    
-	export let data :PageData;
+   import { onMount,afterUpdate} from 'svelte';
+  import { fetchItems } from '$lib/api/api';
+  import type { Item } from '$lib/types/types';
+ 
 
-	type Property = {
-		name: string;
-		city: string;
-		type: string;
-		suburb: string;
-        price:string
-		searchTerms: string;
-	};
-	const searchProducts: Property[] = data.products.Map((property: Property) => ({
-		...property,
-		searchTerms: `${property.city} ${property.name} ${property.type} ${property.suburb}`
-	}));
-	const searchStore = createSearchStore(searchProducts);
-	const unsubscribe = searchStore.subscribe((model) => searchHandler(model));
-	onDestroy(() => {
-		unsubscribe();
-	});
+  let searchTerm ='';
+  let items: Item[] = [];
+  let filteredItems: Item[] = [];
+
+  async function getItems() {
+    items = await fetchItems();
+    filterItems();
+  }
+
+  function filterItems() {
+    if (!searchTerm) {
+      filteredItems = items;
+    } else {
+      const regex = new RegExp(searchTerm, 'i');
+      filteredItems = items.filter((item) => regex.test(item.name) || regex.test(item.city) 
+      || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
+    }
+  }
+
+  onMount(getItems);
+
+  function handleSearchTermChange() {
+    filterItems();
+  }
+
+  afterUpdate(() => {
+    handleSearchTermChange();
+  });
+ 
+   
 </script>
 
 
@@ -48,20 +58,21 @@
 
 <div class="searchcontainer">
     <h1>Search/Filter</h1>
-	<input type="search" placeholder="Search..."  bind:value={$searchStore.search} />
+	<input type="text" placeholder="Search..." bind:value={searchTerm} on:input={handleSearchTermChange} />
 </div>
 
-
+{#each filteredItems as item}
 <div class="cardcontainer">
-<!-- {#each $searchStore.filtered as property} -->
 <div class="imagecontainer">
 </div>
-<p>property.name,property.city</p>
-<p>Rproperty.price</p>
+<p>{item.name} {item.city}</p>
+<p>{item.suburb}</p> <p>{item.type}</p>
+<p>{item.price}</p>
 <button class="btnaddproperty">Update</button>
-<!-- {/each} -->
 </div>
-
+{:else}
+    <li>No items found</li>
+{/each}
 
 <style>
 .cardcontainer{
@@ -71,7 +82,7 @@ height: 488px;
 left: 53px;
 margin: 20px;
 margin-left: 5%;
-margin-top: 12%;
+margin-top: 15%;
 background: #FFFFFF;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 15px 15px 0px 0px;
