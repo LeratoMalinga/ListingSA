@@ -1,10 +1,13 @@
 <script lang="ts">
-   import { onMount,afterUpdate} from 'svelte';
+import { onMount, afterUpdate } from 'svelte';
   import { fetchItems } from '$lib/api/api';
   import type { Item } from '$lib/types/types';
- 
+  import { paginate, LightPaginationNav } from 'svelte-paginate';
 
-  let searchTerm ='';
+  let currentPage = 1;
+  let pageSize = 4;
+
+  let searchTerm = '';
   let items: Item[] = [];
   let filteredItems: Item[] = [];
 
@@ -19,7 +22,7 @@
     } else {
       const regex = new RegExp(searchTerm, 'i');
       filteredItems = items.filter((item) => regex.test(item.name) || regex.test(item.city) 
-      || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
+        || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
     }
   }
 
@@ -32,8 +35,9 @@
   afterUpdate(() => {
     handleSearchTermChange();
   });
- 
-   
+
+  $: paginatedItems = paginate({ items: filteredItems, pageSize, currentPage });
+  
 </script>
 
 
@@ -61,18 +65,32 @@
 	<input type="text" placeholder="Search..." bind:value={searchTerm} on:input={handleSearchTermChange} />
 </div>
 
-{#each filteredItems as item}
-<div class="cardcontainer">
-<div class="imagecontainer">
+<div class="container">
+    {#each paginatedItems as item}
+    <div class="cardcontainer">
+    <div class="imagecontainer">
+    </div>
+    <p>{item.name} {item.city}</p>
+    <p>{item.suburb}</p> <p>{item.type}</p>
+    <p>R{item.price}</p>
+    <button class="btnaddproperty">Update</button>  
+    </div>
+    {:else}
+        <li>No items found</li>
+    {/each}
+    
 </div>
-<p>{item.name} {item.city}</p>
-<p>{item.suburb}</p> <p>{item.type}</p>
-<p>{item.price}</p>
-<button class="btnaddproperty">Update</button>
-</div>
-{:else}
-    <li>No items found</li>
-{/each}
+
+<div class="paginationcontainer">
+    <LightPaginationNav
+    totalItems="{filteredItems.length}"
+    pageSize="{pageSize}"
+    currentPage="{currentPage}"
+    limit="{1}"
+    showStepOptions="{true}"
+    on:setPage="{(e) => currentPage = e.detail.page}"
+  />  
+</div>  
 
 <style>
 .cardcontainer{
@@ -82,11 +100,14 @@ height: 488px;
 left: 53px;
 margin: 20px;
 margin-left: 5%;
-margin-top: 15%;
+
 background: #FFFFFF;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 15px 15px 0px 0px;
 float: left;
+}
+.container{
+    margin-top: 15%;
 }
 .headingcontainer{
 background: white;
@@ -188,11 +209,10 @@ header {
         margin-left: 40%;
         top: 40%;
     }
-     /* body{
-        background-image:  url(/bgimage2.jpg);
-        background-repeat: no-repeat;
-        background-attachment: fixed; 
-        background-size:100% 100%;
-       
-    } */
+   .paginationcontainer{
+    position: absolute;
+    margin-top:35%;
+    margin-right: 6%;
+    margin-left: 9%;
+   }
 </style>

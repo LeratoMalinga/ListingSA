@@ -18,6 +18,7 @@
 		"mini-css-extract-plugin": "2.7.5",
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
+		"svelte-paginate": "^0.1.0",
 		"ts-loader": "9.4.2",
 		"tslib": "^2.4.1",
 		"typescript": "4.9.5",
