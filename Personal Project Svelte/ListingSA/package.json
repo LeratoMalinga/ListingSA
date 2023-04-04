@@ -33,6 +33,7 @@
 		"mkcert": "^1.5.1",
 		"pusher-js": "^8.0.1",
 		"svelte-french-toast": "^1.0.3",
+		"yup": "^1.0.2",
 		"zod": "^3.20.6"
 	}
 }
