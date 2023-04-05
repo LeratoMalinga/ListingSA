@@ -1,40 +1,21 @@
 <script lang="ts">
-    import {z} from 'zod'
+    import * as yup from 'yup';
     import toast, { Toaster } from 'svelte-french-toast';
 
-   export let form;
+    export let form;
 
-   let error=""
-  
-    //form Validation
- const registerSchema = z.object ({
-    name: z.string({required_error:'Name is required'}),
-    email: z.string({required_error:'Email is required'}).email({message: 'This is not a valid email'}),
-    password: z.string({required_error:'Password is required'}).min(8,{message:'Must be at least 8 characters'})
-    .max(8,{message:'Must be at 6 characters'}).trim(),
-    confirmPassword: z.string({required_error:'Confirm Passoword is required'}).min(8,{message:'Must be at least 8 characters'})
-    .max(8,{message:'Must be at 6 characters'}).trim()
- })
- .superRefine(({ confirmPassword,password }, ctx) => {
-        if(confirmPassword !== password){
-            ctx.addIssue({
-            code: 'custom', 
-            message:'Password and Confirm Password must match',
-            path: ['password']
-        });
-        ctx.addIssue({
-            code: 'custom', 
-            message:'Password and Confirm Password must match',
-            path: ['confirmPassword']
-        });
-    }
-       
-        });
+    const schema = yup.object().shape({
+        name: yup.string().required('Name is required'),
+        email: yup.string().required('Email is required').email('This is not a valid email'),
+        password: yup.string().required('Password is required').min(8,'Password Must be at least 8 characters'),
+        confirmPassword: yup.string().required('Confirm Password is required').min(8,'Must be at least 8 characters')
+        .oneOf([yup.ref('password'), null], 'Password and Confirm Password must match')
+    });
 
     async function subscribe (event: Event) {
-        const form = event.target as HTMLFormElement
-        const data= new FormData(form)
-         
+        event.preventDefault();
+        const data = new FormData(event.target as HTMLFormElement);
+    
         const email= data.get('email')
         const password = data.get('password')
         const confirmPassword = data.get('confirmPassword')
@@ -52,23 +33,11 @@
         }
 
         try {
-            const result = registerSchema.parse(model)
+            await schema.validate({ name, email, password,confirmPassword, }, { abortEarly: false });
             console.log('SUCCESS')
-            console.log(result)
-        } catch (err) {  
-            console.log(err)
-            const {fieldErrors: errors} = err.flatten()
-            const {name,email,password,confirmPassword, ...rest} = model;
-            return {
-                data:rest,
-                errors
-            };
-        }
+            console.log(model)
 
-
-        console.log(model)
-        error =""
-       const response = await fetch ('https://localhost:7011/api/Authentification/register',{
+            const response = await fetch ('https://localhost:7011/api/Authentification/register',{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -78,15 +47,26 @@
 
          if (response.ok)
          {
-            // toast.success("Registration was a success")
+            toast.success("Registration was a success");
             return window.location.href = "/login"
          } 
          else {
-            const result = await response.json()
-            error = result.error
-            toast.error('Server Error')
+            toast.error('Server Error');
          }
-                
+
+        } catch (error) {
+            console.log(error);
+            const { inner } = error;
+            const errors = {};
+            inner.forEach(({ path, message }) => {
+                errors[path] = message;
+                toast.error(message); // show error message to the user
+            });
+            if (form) {
+                form.errors = errors;
+            }
+            console.log(errors);
+        }
     }
 
 </script>
@@ -110,63 +90,48 @@
         <form  on:submit|preventDefault={subscribe} id="main" >
             <h2>Register</h2>
         
-            <div class="form-control">
                 <div class="input-parent">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name"> 
-                    <label for="name">
-                        {#if form?.errors?.name}
-                        <span class="label-text-alt text-error">{form?.errors?.name[0]}</span>
-                        {/if}
-                      </label>
-                  </div>
-            </div>
-            
-          <div class="form-control">
+                    {#if form && form.errors.name}
+                    <p class="error">{form.errors.name}</p> // show error message to the user
+                {/if}
+                </div>
+
             <div class="input-parent">
                 <label for="email">Email:</label>
                 <input type="email" id="username" name="email">
-                <label for="password">
-                    {#if form?.errors?.email}
-                    <span class="label-text-alt text-error">{form?.errors?.email[0]}</span>
-                    {/if}
-                  </label>
+                {#if form && form.errors.email}
+                    <p class="error">{form.errors.email}</p> // show error message to the user
+                {/if}
               </div>
-          </div>
+          
            
-            <div class="form-control">
                 <div class="input-parent">
                     <label for="userrole">Select UserRole:</label>
                     <select name="userRole" id="userroles">
                         <option >Agent</option>
                         <option >Tenant</option>
                   </div>
-            </div>
-             
-            <div class="form-control">
+            
+            
                 <div class="input-parent">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name=password>
-                    <label for="password">
-                        {#if form?.errors?.password}
-                        <span class="label-text-alt text-error">{form?.errors?.password[0]}</span>
-                        {/if}
-                      </label>
+                    {#if form && form.errors.password}
+                    <p class="error">{form.errors.password}</p> // show error message to the user
+                    {/if}
                   </div>
-            </div>
-            
-            <div class="form-control">
+        
+        
                 <div class="input-parent">
                     <label for="confirmpassword"> Confirm Password:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword">
-                    <label for="password">
-                        {#if form?.errors?.confirmPassword}
-                        <span class="label-text-alt text-error">{form?.errors?.confirmPassword[0]}</span>
-                        {/if}
-                      </label>
-                  </div>
+                    {#if form && form.errors.confirmPassword}
+                    <p class="error">{form.errors.confirmPassword}</p> // show error message to the user
+                    {/if}
+                </div>
             
-            </div>
             
             <button type="submit">Register</button>
             
