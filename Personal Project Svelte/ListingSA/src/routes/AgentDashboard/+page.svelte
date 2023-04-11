@@ -69,6 +69,7 @@ import { onMount, afterUpdate } from 'svelte';
     {#each paginatedItems as item}
     <div class="cardcontainer">
     <div class="imagecontainer">
+       <img src={item.imageBase64} alt ="">
     </div>
     <p>{item.name} {item.city}</p>
     <p>{item.suburb}</p> <p>{item.type}</p>
@@ -158,7 +159,7 @@ width: 250px;
 height: 230px;
 
 
-background: url(/photo-1600596542815-ffad4c1539a9.jpeg);
+/* background: url(/photo-1600596542815-ffad4c1539a9.jpeg); */
 border-radius: 15px 15px 0px 0px;
 background-repeat:no-repeat;
 }

@@ -5,4 +5,5 @@ export interface Item {
     price: string;
     suburb:string
     type:string
+    imageBase64:string
   }
