@@ -69,7 +69,7 @@ import { onMount, afterUpdate } from 'svelte';
     {#each paginatedItems as item}
     <div class="cardcontainer">
     <div class="imagecontainer">
-       <img src={item.imageBase64} alt ="">
+       <img src={item.imageBase64} class="imgcontainerproperty" alt ="">
     </div>
     <p>{item.name} {item.city}</p>
     <p>{item.suburb}</p> <p>{item.type}</p>
@@ -201,10 +201,15 @@ header {
         margin :0 auto;
         margin-left:0;
     }
-    img{
+    .imgcontainerproperty{
         margin-left: 0%;
+        border-radius: 15px 15px 0px 0px;
+        width: 250px;
+height: 230px;
     }
-
+img{
+    margin-left: 0%;
+}
     .searchcontainer{
         position: absolute;
         margin-left: 40%;
