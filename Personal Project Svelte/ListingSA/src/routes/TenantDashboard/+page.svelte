@@ -68,6 +68,7 @@
       {#each paginatedItems as item}
       <div class="cardcontainer">
       <div class="imagecontainer">
+        <img src={item.imageBase64} class="imgcontainerproperty" alt ="">
       </div>
       <p>{item.name} {item.city}</p>
       <p>{item.suburb}</p> <p>{item.type}</p>
@@ -194,6 +195,13 @@
           margin-left: 40%;
           top: 40%;
       }
+
+      .imgcontainerproperty{
+        margin-left: 0%;
+        border-radius: 15px 15px 0px 0px;
+        width: 250px;
+height: 230px;
+    }
      .paginationcontainer{
       position: absolute;
       margin-top:35%;
