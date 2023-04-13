@@ -46,12 +46,9 @@ if (token) {
     const decodedToken = jwtDecode(token);
     const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-    console.log('User role:', userRole);
     if (userRole === 'Agent') {
-  console.log('Redirecting to Agent Dashboard');
   window.location.href = '/AgentDashboard';
 } else if (userRole === 'Tenant') {
-  console.log('Redirecting to Tenant Dashboard');
   window.location.href = '/TenantDashboard';
 } else {
   console.log('Unknown user role:', userRole);
