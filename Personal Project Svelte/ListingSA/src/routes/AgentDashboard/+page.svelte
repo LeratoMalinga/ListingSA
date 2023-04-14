@@ -1,44 +1,57 @@
 <script lang="ts">
-import { onMount, afterUpdate } from 'svelte';
-  import { fetchItems } from '$lib/api/api';
-  import type { Item } from '$lib/types/types';
-  import { paginate, LightPaginationNav } from 'svelte-paginate';
-
-  let currentPage = 1;
-  let pageSize = 4;
-
-  let searchTerm = '';
-  let items: Item[] = [];
-  let filteredItems: Item[] = [];
-
-  async function getItems() {
-    items = await fetchItems();
-    filterItems();
-  }
-
-  function filterItems() {
-    if (!searchTerm) {
-      filteredItems = items;
-    } else {
-      const regex = new RegExp(searchTerm, 'i');
-      filteredItems = items.filter((item) => regex.test(item.name) || regex.test(item.city) 
-        || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
+    import { onMount, afterUpdate } from 'svelte';
+    import { fetchItems } from '$lib/api/api';
+    import type { Item } from '$lib/types/types';
+    import { paginate, LightPaginationNav } from 'svelte-paginate';
+    import jwtDecode from 'jwt-decode';
+    
+    let currentPage = 1;
+    let pageSize = 4;
+    
+    let searchTerm = '';
+    let items: Item[] = [];
+    let fectcheditems: Item[] = [];
+    let filteredItems: Item[] = [];
+    
+    async function getItems() {
+      const token = localStorage.getItem('token');
+    
+      if (!token) {
+        // handle missing token
+        return;
+      }
+    
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+    
+      fectcheditems = await fetchItems();
+      items = fectcheditems.filter((item) => item.appUser.id === userId);
+      filterItems();
     }
-  }
-
-  onMount(getItems);
-
-  function handleSearchTermChange() {
-    filterItems();
-  }
-
-  afterUpdate(() => {
-    handleSearchTermChange();
-  });
-
-  $: paginatedItems = paginate({ items: filteredItems, pageSize, currentPage });
-  
-</script>
+    
+    function filterItems() {
+      if (!searchTerm) {
+        filteredItems = items;
+      } else {
+        const regex = new RegExp(searchTerm, 'i');
+        filteredItems = items.filter((item) => regex.test(item.name) || regex.test(item.city) 
+          || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
+      }
+    }
+    
+    onMount(getItems);
+    
+    function handleSearchTermChange() {
+      filterItems();
+    }
+    
+    afterUpdate(() => {
+      handleSearchTermChange();
+    });
+    
+    $: paginatedItems = paginate({ items: filteredItems, pageSize, currentPage });
+      
+    </script>
 
 
 <header>
