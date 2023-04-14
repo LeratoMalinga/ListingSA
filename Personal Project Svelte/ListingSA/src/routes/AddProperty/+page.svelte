@@ -1,7 +1,6 @@
 <script lang="ts">
-
-import fs from 'fs';
-import { any, z } from 'zod';
+import jwtDecode from 'jwt-decode';
+import { z } from 'zod';
 import toast ,{Toaster} from 'svelte-french-toast';
 
 export let form;
@@ -57,6 +56,18 @@ async function subscribe(event: Event) {
     address: string,
     imageBase64: string
   ) {
+
+  const token = localStorage.getItem('token');
+
+if (!token) {
+  // handle missing token
+  return;
+}
+
+const decodedToken = jwtDecode(token);
+const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+console.log(userId)
+
     const model = {
       name,
       description,
@@ -67,6 +78,7 @@ async function subscribe(event: Event) {
       address,
       imageBase64,
       type,
+      userId
     };
 
     try {
