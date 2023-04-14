@@ -1,18 +1,21 @@
 <script lang="ts">
     import { onMount, afterUpdate } from 'svelte';
-    import { fetchItems } from '$lib/api/api';
+    import { fetchItems,deleteItem } from '$lib/api/api';
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import jwtDecode from 'jwt-decode';
-    
+    import { string } from 'zod';
+
     let currentPage = 1;
     let pageSize = 4;
+   
     
     let searchTerm = '';
     let items: Item[] = [];
     let fectcheditems: Item[] = [];
     let filteredItems: Item[] = [];
     
+
     async function getItems() {
       const token = localStorage.getItem('token');
     
@@ -38,6 +41,21 @@
           || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
       }
     }
+
+function handleDelete(id:string) {
+  const confirmDelete = confirm('Are you sure you want to delete this item?');
+  
+  if (confirmDelete) {
+    deleteItem(id)
+      .then(() => {
+        location.reload();
+      })
+      .catch((error) => {
+        // handle error deleting item
+        console.error('Error deleting item:', error);
+      });
+  }
+}
     
     onMount(getItems);
     
@@ -87,7 +105,7 @@
     <p>{item.name} {item.city}</p>
     <p>{item.suburb}</p> <p>{item.type}</p>
     <p>R{item.price}</p>
-    <button class="btnaddproperty">Update</button>  
+    <button class="btnaddproperty" on:click={() => handleDelete(item.id)}>Delete</button>  
     </div>
     {:else}
         <li>No items found</li>
