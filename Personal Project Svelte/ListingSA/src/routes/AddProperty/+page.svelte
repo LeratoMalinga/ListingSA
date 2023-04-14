@@ -240,7 +240,6 @@ console.log(userId)
                   </div>
               </div>
            
-           
             <button type="submit">Add Property</button>
           </form>
     

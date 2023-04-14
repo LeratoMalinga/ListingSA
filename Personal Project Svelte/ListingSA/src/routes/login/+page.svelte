@@ -34,7 +34,6 @@
                 const token = await response.text(); // parse the response as text
                 localStorage.setItem('token', token);
                 toast.success('Login successful');
-                // return (window.location.href = '/AgentDashboard');
             } else {
                 toast.error('Invalid Email Or Password');
             }
