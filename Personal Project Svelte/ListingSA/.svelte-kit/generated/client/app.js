@@ -9,7 +9,8 @@ export const nodes = [() => import('./nodes/0'),
 	() => import('./nodes/6'),
 	() => import('./nodes/7'),
 	() => import('./nodes/8'),
-	() => import('./nodes/9')];
+	() => import('./nodes/9'),
+	() => import('./nodes/10')];
 
 export const server_loads = [];
 
@@ -20,6 +21,7 @@ export const dictionary = {
 	"/ChatMessage": [6],
 	"/Chat": [5],
 	"/TenantDashboard": [9],
+	"/UpdateProperty": [10],
 	"/login": [7],
 	"/register": [8]
 };

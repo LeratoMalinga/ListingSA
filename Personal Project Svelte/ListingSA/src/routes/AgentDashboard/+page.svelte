@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, afterUpdate } from 'svelte';
-    import { fetchItems,deleteItem } from '$lib/api/api';
+    import { fetchItems,deleteItem} from '$lib/api/api';
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import jwtDecode from 'jwt-decode';
@@ -48,13 +48,18 @@ function handleDelete(id:string) {
   if (confirmDelete) {
     deleteItem(id)
       .then(() => {
-        location.reload();
+        
       })
       .catch((error) => {
         // handle error deleting item
         console.error('Error deleting item:', error);
       });
   }
+}
+
+function handleUpdate(id: string) {
+    // Redirect to update page with item ID as query parameter
+    window.location.href = `/UpdateProperty?id=${id}`;
 }
     
     onMount(getItems);
@@ -106,6 +111,7 @@ function handleDelete(id:string) {
     <p>{item.suburb}</p> <p>{item.type}</p>
     <p>R{item.price}</p>
     <button class="btnaddproperty" on:click={() => handleDelete(item.id)}>Delete</button>  
+    <button class="btnupdateproperty" on:click={() => handleUpdate(item.id)}>Update</button> 
     </div>
     {:else}
         <li>No items found</li>
