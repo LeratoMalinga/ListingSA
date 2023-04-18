@@ -57,9 +57,11 @@ function handleDelete(id:string) {
   }
 }
 
-function handleUpdate(id: string) {
+function handleUpdate(propertyId: string) {
     // Redirect to update page with item ID as query parameter
-    window.location.href = `/UpdateProperty?id=${id}`;
+    localStorage.setItem('propertyId',propertyId);
+    window.location.href = '/UpdateProperty';
+    
 }
     
     onMount(getItems);
