@@ -48,7 +48,7 @@ function handleDelete(id:string) {
   if (confirmDelete) {
     deleteItem(id)
       .then(() => {
-        
+        getItems();
       })
       .catch((error) => {
         // handle error deleting item
@@ -96,7 +96,7 @@ function handleUpdate(propertyId: string) {
     <h1>Welcome to Your Agent DashBoard</h1>
 </div>
 
-<a class="addproperty" href="/AddProperty"><button class="btnupdateproperty">Add Property</button></a>
+<a class="addproperty" href="/AddProperty"><button class="btnaddproperty">Add Property</button></a>
 
 <div class="searchcontainer">
     <h1>Search/Filter</h1>
@@ -112,8 +112,11 @@ function handleUpdate(propertyId: string) {
     <p>{item.name} {item.city}</p>
     <p>{item.suburb}</p> <p>{item.type}</p>
     <p>R{item.price}</p>
-    <button class="btnaddproperty" on:click={() => handleDelete(item.id)}>Delete</button>  
-    <button class="btnupdateproperty" on:click={() => handleUpdate(item.id)}>Update</button> 
+    <div class="btncontainer">
+        <button class="btndeleteproperty" on:click={() => handleDelete(item.id)}>Delete</button>  
+        <button class="btnupdateproperty" on:click={() => handleUpdate(item.id)}>Update</button> 
+    </div>
+   
     </div>
     {:else}
         <li>No items found</li>
@@ -164,13 +167,13 @@ p{
     font-size: medium;
     margin:20px;
 }
-.btnaddproperty{
+.btndeleteproperty{
 font-size: 15px;
-background: rgb(0,150,155);
+background: rgb(155, 0, 0);
 position: absolute;
-width: 120px;
+width: 80px;
 height: 42px;
-left: 45%;
+left: 59%;
 bottom: 2%;
 padding: 10px 18px;
 border: none;
@@ -178,11 +181,11 @@ border-radius: 4px;
 color: white;
 transition: all 0.2s ease;
 }
-.btnupdateproperty{
+.btnaddproperty{
 font-size: 15px;
 background: rgb(0,150,155);
 position: absolute;
-width: 120px;
+width: 120x;
 height: 42px;
 left: 45%;
 top:35%;
@@ -193,6 +196,22 @@ border-radius: 4px;
 color: white;
 transition: all 0.2s ease;
 }
+
+.btnupdateproperty{
+font-size: 15px;
+background: rgb(0,150,155);
+position: absolute;
+width: 80px;
+height: 42px;
+left: 8%;
+bottom: 2%;
+padding: 10px 18px;
+border: none;
+border-radius: 4px;
+color: white;
+transition: all 0.2s ease;
+}
+
 .imagecontainer{
 width: 250px;
 height: 230px;

@@ -28,9 +28,6 @@ async function getItem() {
       console.log(item)
     }
 
- 
-
-
 async function subscribe(event: Event) {
   event.preventDefault();
   const form = event.target as HTMLFormElement;
@@ -86,8 +83,6 @@ if (!token) {
 }
 
 const decodedToken = jwtDecode(token);
-const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-console.log(userId)
 
     const model = {
       name,
