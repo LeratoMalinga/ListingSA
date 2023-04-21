@@ -6,5 +6,6 @@ export interface Item {
     suburb:string
     type:string
     imageBase64:string
-    appUser
+    appUser:any
   }
+

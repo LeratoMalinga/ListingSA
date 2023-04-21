@@ -3,16 +3,9 @@ import type { Item } from '$lib/types/types';
 import { getItembyid} from '$lib/api/api';
 import { onMount } from 'svelte';
 import jwtDecode from 'jwt-decode';
-import { z } from 'zod';
 import toast ,{Toaster} from 'svelte-french-toast';
 
 export let form;
-
-const registerSchema = z.object({
-  name: z.string({ required_error: 'Name is required' }),
-  price: z.string({ required_error: 'Price is required' }),
-});
-
 
 let item: Item[] = [];
 
@@ -25,14 +18,15 @@ async function getItem() {
         return;
       }
       item = await getItembyid(itemId);
-      console.log(item)
     }
 
+  
 async function subscribe(event: Event) {
   event.preventDefault();
   const form = event.target as HTMLFormElement;
   const data = new FormData(form);
-
+  const itemId = localStorage.getItem('propertyId');
+  const item = await getItem();
   const name = data.get('name') as string;
   const description = data.get('description') as string;
   const price = data.get('price') as string;
@@ -53,17 +47,17 @@ async function subscribe(event: Event) {
       imageBase64 = reader.result as string;
       console.log(imageBase64);
       // call the function to add the property after the image has been read
-      addProperty(name, description, price, city, suburb, province, type, address, imageBase64);
+      updateProperty(name, description, price, city, suburb, province, type, address, imageBase64);
     };
     reader.onerror = () => {
       console.log('Error while reading the file');
     };
   } else {
     // call the function to add the property if no image has been selected
-    addProperty(name, description, price, city, suburb, province, type, address, imageBase64);
+    updateProperty(name, description, price, city, suburb, province, type, address, imageBase64);
   }
 
-  async function addProperty(
+  async function updateProperty(
     name: string,
     description: string,
     price: string,
@@ -72,7 +66,7 @@ async function subscribe(event: Event) {
     province: string,
     type: string,
     address: string,
-    imageBase64: string
+    imageBase64: string,
   ) {
 
   const token = localStorage.getItem('token');
@@ -112,7 +106,7 @@ const decodedToken = jwtDecode(token);
     const response = await fetch(`https://localhost:7011/api/Property/UpdateProperty/${itemId}`, {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(model),
   });
