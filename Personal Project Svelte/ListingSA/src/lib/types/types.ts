@@ -1,11 +1,11 @@
 export interface Item {
-    id:any
+    id:any;
     name: string;
     city: string;
     price: string;
-    suburb:string
-    type:string
-    imageBase64:string
-    appUser:any
+    suburb:string;
+    type:string;
+    imageBase64:string;
+    appUser:any;
   }
 
