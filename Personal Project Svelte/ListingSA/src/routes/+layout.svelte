@@ -41,14 +41,15 @@
 <slot />
 
 <style>
-    header {
-        height: 90px;
-        text-align: center;
-        background:rgb(96.1%, 96.1%, 96.1%);
-        padding-left: 0%;
-    
-    
-    }
+  header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 90px;
+  text-align: center;
+  background:rgb(96.1%, 96.1%, 96.1%);
+  padding-left: 0%;
+}
     .links{
         margin-left:auto;
         margin-top: 0px;
@@ -67,13 +68,16 @@
         margin-left: 2%;
     }
 
-    nav {
-        display:flex;
-        align-items:center;
-        max-width: 90%;
-        margin :0 auto;
-        margin-left:0;
-    }
+  nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 90%;
+  margin: 0 auto;
+  margin-left: 0;
+}
     img{
         margin-left: 0%;
     }

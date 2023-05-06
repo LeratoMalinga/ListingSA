@@ -234,7 +234,6 @@ onMount(getItem);
               </div>
           </div>
         
-         
               <div class="form-control">
                 <div class="input-parent">
                     <label for="propertyname">Property Picture:</label>
@@ -242,7 +241,7 @@ onMount(getItem);
                   </div>
               </div>
            
-            <button type="submit" >Add Property</button>
+            <button type="submit" >Update Property</button>
           </form>
     
     </div>
