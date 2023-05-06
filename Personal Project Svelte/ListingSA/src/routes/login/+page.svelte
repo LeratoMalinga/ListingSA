@@ -2,7 +2,8 @@
     import { toast, Toaster } from 'svelte-french-toast';
     import * as yup from 'yup';
     import jwtDecode from 'jwt-decode';
-
+    import { isLoggedIn, logout } from '$lib/auth/auth';
+  
 
     export let form;
 
@@ -40,12 +41,11 @@
 
             const token = localStorage.getItem('token');
             
-
 if (token) {
     const decodedToken = jwtDecode(token);
     const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
-    if (userRole === 'Agent') {
+if (userRole === 'Agent') {
   window.location.href = '/AgentDashboard';
 } else if (userRole === 'Tenant') {
   window.location.href = '/TenantDashboard';
