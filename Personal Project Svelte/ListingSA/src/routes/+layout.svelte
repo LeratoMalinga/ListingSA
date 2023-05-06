@@ -83,11 +83,11 @@
     cursor: pointer;
     margin-left: 40px;
     margin-bottom: 20px;
-    color: blue;
+    color: black;;
     text-decoration: underline;
     font-size: 16px;
   }
   button:hover {
-    color: darkblue;
+    color: rgb(30, 38, 161);
   }
 </style>
