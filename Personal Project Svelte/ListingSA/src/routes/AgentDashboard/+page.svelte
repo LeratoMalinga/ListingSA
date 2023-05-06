@@ -4,7 +4,7 @@
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import jwtDecode from 'jwt-decode';
-    import { string } from 'zod';
+   
 
     let currentPage = 1;
     let pageSize = 4;
@@ -78,19 +78,6 @@ function handleUpdate(propertyId: string) {
       
     </script>
 
-
-<header>
-    <nav>
-        <div class="logoImage">
-            <img src="/Logohome2.png" alt ="logo" width="90px" height="90px">
-        </div>
-        <div class="links">
-            <a href="/">Home</a>
-            <a href="/">About</a>
-            <a href="/login">Login</a>
-        </div>
-    </nav>   
-</header>
 
 <div class="headingcontainer">
     <h1>Welcome to Your Agent DashBoard</h1>
@@ -226,20 +213,7 @@ h1{
     color: black;
 
 }
-header {
-        height: 90px;
-        text-align: center;
-        background:rgb(96.1%, 96.1%, 96.1%);
-        padding-left: 0%;
-    
-    
-    }
-    .links{
-        margin-left:auto;
-        margin-top: 0px;
-        margin-right: 0%;
-        
-    }
+
     a {
         margin-left: 40px;
         margin-bottom: 20px;
@@ -248,17 +222,6 @@ header {
         
     }
 
-    .logoImage{
-        margin-left: 2%;
-    }
-
-    nav {
-        display:flex;
-        align-items:center;
-        max-width: 90%;
-        margin :0 auto;
-        margin-left:0;
-    }
     .imgcontainerproperty{
         margin-left: 0%;
         border-radius: 15px 15px 0px 0px;
