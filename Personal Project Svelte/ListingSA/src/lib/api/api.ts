@@ -1,5 +1,5 @@
 
-import type { Item } from '$lib/types/types';
+import type { Item, request } from '$lib/types/types';
 
 
 export async function fetchItems(): Promise<Item[]> {
@@ -62,6 +62,29 @@ export async function getItembyid(id: string): Promise<Item[]> {
   const response = await fetch(`https://localhost:7011/api/Property/GetPropertyById/${id}`)
   const data = await response.json();
   return data;
+}
+
+export async function sendContactDetails(model:any): Promise<request[]> {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    // handle missing token
+    return;
+  }
+
+  const response = await fetch(`https://localhost:7011/api/Contact/SendEmail`, {
+    method: 'Post',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(model),
+  });
+
+  if (!response.ok) {
+    // handle error
+    console.error('Error Sending email:', response.statusText);
+    return;
+  }
 }
 
 

@@ -6,6 +6,19 @@ export interface Item {
     suburb:string;
     type:string;
     imageBase64:string;
-    appUser:any;
+    appUser:appUser;
   }
 
+export interface appUser{
+  id:string;
+  email: string;
+  name:string;
+}
+
+
+export interface request{
+  To:string;
+  name:string;
+  contactNumber:string;
+  email:string;
+}

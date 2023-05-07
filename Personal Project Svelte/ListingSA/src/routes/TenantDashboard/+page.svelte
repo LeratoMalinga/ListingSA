@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
-    import { fetchItems } from '$lib/api/api';
+    import { fetchItems,sendContactDetails} from '$lib/api/api';
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
   
@@ -25,6 +25,8 @@
           || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
       }
     }
+
+   
   
     onMount(getItems);
   
@@ -59,8 +61,10 @@
       </div>
       <p>{item.name} {item.city}</p>
       <p>{item.suburb}</p> <p>{item.type}</p>
-      <p>R{item.price}</p>
-      <button class="btnaddproperty">Contact</button>  
+      <p>R{item.price}</p><br/><br/>
+
+        <p class="agentUser"></p>{item.appUser.name}
+        <button class="btnaddproperty">Contact</button>  
       </div>
       {:else}
           <li>No items found</li>
@@ -115,15 +119,23 @@
   font-size: 15px;
   background: rgb(0,150,155);
   position: absolute;
-  width: 120px;
+  width: 85px;
   height: 42px;
-  left: 45%;
+  left: 60%;
   bottom: 2%;
   padding: 10px 18px;
   border: none;
   border-radius: 4px;
   color: white;
   transition: all 0.2s ease;
+  }
+
+  .agentUser{
+  position: absolute;
+  right: 45%;
+  bottom: 90%;
+  margin-left: 10px;
+  
   }
  
   .imagecontainer{
