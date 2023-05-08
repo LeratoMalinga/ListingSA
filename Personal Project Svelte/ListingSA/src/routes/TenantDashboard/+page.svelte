@@ -3,6 +3,12 @@
     import { fetchItems,sendContactDetails} from '$lib/api/api';
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
+    import Modal from "$lib/Modal.svelte";
+
+  let modalOpen = false;
+  let name = '';
+  let phone = '';
+  let email = '';
   
     let currentPage = 1;
     let pageSize = 4;
@@ -26,8 +32,6 @@
       }
     }
 
-   
-  
     onMount(getItems);
   
     function handleSearchTermChange() {
@@ -64,13 +68,15 @@
       <p>R{item.price}</p><br/><br/>
 
         <p class="agentUser"></p>{item.appUser.name}
-        <button class="btnaddproperty">Contact</button>  
+        <button class="btncontact" on:click={() => modalOpen = true}>Contact</button> 
       </div>
       {:else}
           <li>No items found</li>
       {/each}
       
   </div>
+
+  <Modal isOpen={modalOpen} bind:name bind:phone bind:email />
   
   <div class="paginationcontainer">
       <LightPaginationNav
@@ -115,7 +121,7 @@
       font-size: medium;
       margin:20px;
   }
-  .btnaddproperty{
+  .btncontact{
   font-size: 15px;
   background: rgb(0,150,155);
   position: absolute;
