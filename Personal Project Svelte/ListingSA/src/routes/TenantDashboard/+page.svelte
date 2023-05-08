@@ -9,6 +9,8 @@
   let name = '';
   let phone = '';
   let email = '';
+  let agentname='';
+  let agentemail= '';
   
     let currentPage = 1;
     let pageSize = 4;
@@ -31,7 +33,7 @@
           || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
       }
     }
-
+   
     onMount(getItems);
   
     function handleSearchTermChange() {
@@ -68,7 +70,9 @@
       <p>R{item.price}</p><br/><br/>
 
         <p class="agentUser"></p>{item.appUser.name}
-        <button class="btncontact" on:click={() => modalOpen = true}>Contact</button> 
+        <button class="btncontact" on:click={() => {modalOpen = true,
+        agentname =item.appUser.name,
+        agentemail=item.appUser.email}}>Contact</button> 
       </div>
       {:else}
           <li>No items found</li>
@@ -76,7 +80,7 @@
       
   </div>
 
-  <Modal isOpen={modalOpen} bind:name bind:phone bind:email />
+  <Modal isOpen={modalOpen} agentName={agentname} to={agentemail} bind:name bind:phone bind:email />
   
   <div class="paginationcontainer">
       <LightPaginationNav

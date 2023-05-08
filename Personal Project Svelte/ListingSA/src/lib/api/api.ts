@@ -64,7 +64,7 @@ export async function getItembyid(id: string): Promise<Item[]> {
   return data;
 }
 
-export async function sendContactDetails(model:any): Promise<request[]> {
+export async function sendContactDetails(model:request){
   const token = localStorage.getItem('token');
 
   if (!token) {
@@ -73,7 +73,7 @@ export async function sendContactDetails(model:any): Promise<request[]> {
   }
 
   const response = await fetch(`https://localhost:7011/api/Contact/SendEmail`, {
-    method: 'Post',
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${token}`
     },
@@ -82,6 +82,7 @@ export async function sendContactDetails(model:any): Promise<request[]> {
 
   if (!response.ok) {
     // handle error
+    console.log(response);
     console.error('Error Sending email:', response.statusText);
     return;
   }

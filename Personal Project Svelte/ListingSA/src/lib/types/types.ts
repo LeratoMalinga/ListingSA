@@ -17,8 +17,9 @@ export interface appUser{
 
 
 export interface request{
-  To:string;
+  to:string;
+  agentName:string;
   name:string;
-  contactNumber:string;
+  phone:string;
   email:string;
 }

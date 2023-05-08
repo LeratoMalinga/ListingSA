@@ -3,16 +3,22 @@
   import { sendContactDetails} from '$lib/api/api';
 
   const schema = z.object({
-    name: z.string().min(1),
-    phone: z.string().min(1),
-    email: z.string().email(),
+    name: z.string().nonempty(),
+    phone: z.string().nonempty(),
+    email: z.string().nonempty().email(),
   });
 
   export let isOpen = false;
   export let name = '';
   export let phone = '';
   export let email = '';
+  export let agentName='';
+  export let to = '';
   export let errors = {};
+
+  
+  
+
 
   function closeModal() {
     name = '';
@@ -22,13 +28,14 @@
     isOpen = false;
   }
 
-  function saveData() {
-    const data = { name, phone, email };
+  
 
+  export async function saveData() {
+    const data = { to,name, phone, email,agentName };
+   console.log(data)
     try {
       schema.parse(data);
       sendContactDetails(data);
-      // Do something with the data here
       closeModal();
     } catch (error) {
       errors = error.formErrors.fieldErrors;
