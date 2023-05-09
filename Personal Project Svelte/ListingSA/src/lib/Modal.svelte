@@ -37,6 +37,7 @@
       schema.parse(data);
       sendContactDetails(data);
       closeModal();
+      
     } catch (error) {
       errors = error.formErrors.fieldErrors;
     }

@@ -1,5 +1,6 @@
 
 import type { Item, request } from '$lib/types/types';
+import { toast, Toaster } from 'svelte-french-toast';
 
 
 export async function fetchItems(): Promise<Item[]> {
@@ -75,7 +76,8 @@ export async function sendContactDetails(model:request){
   const response = await fetch(`https://localhost:7011/api/Contact/SendEmail`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(model),
   });
@@ -83,9 +85,11 @@ export async function sendContactDetails(model:request){
   if (!response.ok) {
     // handle error
     console.log(response);
+    toast.error("server error");
     console.error('Error Sending email:', response.statusText);
     return;
   }
+  toast.success('Contact details sent');
 }
 
 

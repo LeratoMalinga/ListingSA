@@ -4,6 +4,8 @@
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import Modal from "$lib/Modal.svelte";
+    import toast ,{Toaster} from 'svelte-french-toast';
+
 
   let modalOpen = false;
   let name = '';
@@ -47,7 +49,7 @@
     $: paginatedItems = paginate({ items: filteredItems, pageSize, currentPage });
     
   </script>
-  
+  <Toaster/>
 
   <div class="headingcontainer">
       <h1>Welcome to Your Tenant DashBoard</h1>
