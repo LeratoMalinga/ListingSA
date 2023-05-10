@@ -87,7 +87,7 @@ function handleUpdate(propertyId: string) {
 
 <div class="searchcontainer">
     <h2>Search/Filter</h2>
-	<input type="text" placeholder="Search..." bind:value={searchTerm} on:input={handleSearchTermChange} />
+	<input type="text" placeholder="Search... price,name,city" bind:value={searchTerm} on:input={handleSearchTermChange} />
 
   <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
     <option value="">Filter by Type</option>
@@ -164,7 +164,7 @@ border-radius: 15px 15px 0px 0px;
 float: left;
 }
 .container{
-    margin-top: 15%;
+    margin-top: 2%;
 }
 .headingcontainer{
 background: white;
