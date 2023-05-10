@@ -150,22 +150,31 @@ function handleUpdate(propertyId: string) {
 </div>  
 
 <style>
-.cardcontainer{
-position: relative;
-width: 250px;
-height: 488px;
-left: 53px;
-margin: 20px;
-margin-left: 5%;
+.cardcontainer {
+  position: relative;
+  width: 250px;
+  height: 488px;
+  left: 53px;
+  margin: 20px;
+  margin-left: 5%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px 15px 0px 0px;
+  float: left;
+  transition: box-shadow 0.3s ease; /* Add transition only for the box-shadow property */
+}
 
-background: #FFFFFF;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 15px 15px 0px 0px;
-float: left;
+.cardcontainer:hover {
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5); /* Change the box shadow on hover */
+  cursor: pointer; /* Change the cursor on hover */
 }
-.container{
-    margin-top: 2%;
+
+.container {
+  margin-top: 2%;
 }
+
+
+
 .headingcontainer{
 background: white;
 width: 500px;
@@ -181,20 +190,26 @@ p{
     font-size: medium;
     margin:20px;
 }
-.btndeleteproperty{
-font-size: 15px;
-background: rgb(155, 0, 0);
-position: absolute;
-width: 80px;
-height: 42px;
-left: 59%;
-bottom: 2%;
-padding: 10px 18px;
-border: none;
-border-radius: 4px;
-color: white;
-transition: all 0.2s ease;
+.btndeleteproperty {
+  font-size: 15px;
+  cursor: pointer;
+  background: rgb(155, 0, 0);
+  position: absolute;
+  width: 80px;
+  height: 42px;
+  left: 59%;
+  bottom: 2%;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  transition: all 0.2s ease;
 }
+
+.btndeleteproperty:hover {
+  background: rgb(120, 0, 0); /* Change the background color on hover */
+}
+
 .btnaddproperty{
 font-size: 15px;
 background: rgb(0,150,155);
@@ -228,21 +243,26 @@ input:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
-.btnupdateproperty{
-cursor: pointer;
-font-size: 15px;
-background: rgb(0,150,155);
-position: absolute;
-width: 80px;
-height: 42px;
-left: 8%;
-bottom: 2%;
-padding: 10px 18px;
-border: none;
-border-radius: 4px;
-color: white;
-transition: all 0.2s ease;
+.btnupdateproperty {
+  cursor: pointer;
+  font-size: 15px;
+  background: rgb(0, 150, 155);
+  position: absolute;
+  width: 80px;
+  height: 42px;
+  left: 8%;
+  bottom: 2%;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  transition: all 0.2s ease;
 }
+
+.btnupdateproperty:hover {
+  background: rgb(0, 120, 125); /* Change the background color on hover */
+}
+
 
 .imagecontainer{
 width: 250px;
