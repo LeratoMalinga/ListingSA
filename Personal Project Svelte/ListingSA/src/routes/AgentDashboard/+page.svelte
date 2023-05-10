@@ -123,7 +123,7 @@ function handleUpdate(propertyId: string) {
     <div class="imagecontainer">
        <img src={item.imageBase64} class="imgcontainerproperty" alt ="">
     </div>
-    <p>{item.name} {item.city}</p>
+    <p>{item.name}, {item.city}</p>
     <p>{item.suburb}</p> <p>{item.type}</p>
     <p>R{item.price}</p>
     <div class="btncontainer">
@@ -304,12 +304,17 @@ img{
 .searchcontainer > h2 {
   margin-left: 30%;
 }
-   .paginationcontainer{
-    position: absolute;
-    margin-top:35%;
-    margin-right: 6%;
-    margin-left: 9%;
-   }
+.paginationcontainer {
+  position: relative;
+  margin-top: 36%;
+  margin-right: 6%;
+  margin-left: 35%;
+  margin-bottom: 1%;
+  text-align: center;
+  width: 50%;
+  bottom: 0;
+}
+
   
    .searchcontainer select {
     width: 200px;
@@ -340,4 +345,5 @@ img{
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
   }
+
 </style>
