@@ -86,8 +86,35 @@ function handleUpdate(propertyId: string) {
 <a class="addproperty" href="/AddProperty"><button class="btnaddproperty">Add Property</button></a>
 
 <div class="searchcontainer">
-    <h1>Search/Filter</h1>
+    <h2>Search/Filter</h2>
 	<input type="text" placeholder="Search..." bind:value={searchTerm} on:input={handleSearchTermChange} />
+
+  <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by Type</option>
+    <option >TownHouse</option>
+    <option >Flat</option>
+    <option >Commune</option>
+  </select>
+
+  <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by City</option>
+    <option >Pretoria</option>
+    <option >Durban</option>
+    <option >Cape Town</option>
+  </select>
+
+  <select bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by Province</option>
+    <option >Gauteng</option>
+    <option >Limpopo</option>
+    <option >Free State</option>
+    <option >Western Cape</option>
+    <option >Northeren Cape</option>
+    <option >North West</option>
+    <option >Mpumalanga</option>
+    <option >Kwa-Zulu-Natal</option>
+    <option >Estern Cape</option> 
+  </select>
 </div>
 
 <div class="container">
@@ -146,7 +173,7 @@ height:10px;
 margin-left:32%;
 padding: 20px;
 padding-top: 40px;
-margin-top: 20px;
+margin-top: 5%;
 border-radius: 4%;
 }
 p{
@@ -171,11 +198,10 @@ transition: all 0.2s ease;
 .btnaddproperty{
 font-size: 15px;
 background: rgb(0,150,155);
-position: absolute;
 width: 120x;
 height: 42px;
-left: 45%;
-top:35%;
+margin-left: 42%;
+margin-top:6%;
 margin-bottom: 40px;
 padding: 10px ;
 border: none;
@@ -183,8 +209,27 @@ border-radius: 4px;
 color: white;
 transition: all 0.2s ease;
 }
+.btnaddproperty:hover {
+  cursor: pointer;
+  background: rgb(0, 120, 125);
+}
 
+input {
+  margin-left: 0%;
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
 .btnupdateproperty{
+cursor: pointer;
 font-size: 15px;
 background: rgb(0,150,155);
 position: absolute;
@@ -232,14 +277,47 @@ img{
     margin-left: 0%;
 }
     .searchcontainer{
-        position: absolute;
-        margin-left: 40%;
+        margin-left: 20%;
         top: 40%;
     }
+
+.searchcontainer > h2 {
+  margin-left: 30%;
+}
    .paginationcontainer{
     position: absolute;
     margin-top:35%;
     margin-right: 6%;
     margin-left: 9%;
    }
+  
+   .searchcontainer select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  /* Styling the dropdown arrow */
+  .searchcontainer select::after {
+    content: '\25BC'; /* Unicode character for down arrow */
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    pointer-events: none; /* Prevents the arrow from being clickable */
+  }
+
+  /* Styling the dropdown on hover */
+  .searchcontainer select:hover {
+    border-color: #007bff;
+  }
+
+  /* Styling the dropdown when focused */
+  .searchcontainer select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
 </style>
