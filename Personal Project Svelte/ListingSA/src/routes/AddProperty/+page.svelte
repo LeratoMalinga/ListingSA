@@ -270,6 +270,9 @@ console.log(userId)
             opacity: 1;
         }
     }
+    .registerformcontainer{
+      margin-top: 10%;
+    }
     h2 {
         text-align: center;
         font-size: 28px;
@@ -337,14 +340,4 @@ console.log(userId)
         box-shadow: 0px 0px 0px 3px black;
     }
     
-         body{
-            background-image:  url(/background.jpg);
-            background-repeat: no-repeat;
-            background-attachment: fixed; 
-            background-size:100% 100%;
-            margin:0%;
-            padding:0%;
-           
-        } 
-         
-    </style>
+</style>
