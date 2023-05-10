@@ -1,1 +1,1 @@
-export { default as component } from "../../../../src/routes/UpdateProperty/+page.svelte";
+export { default as component } from "../../../../src/routes/TenantDashboard/+page.svelte";

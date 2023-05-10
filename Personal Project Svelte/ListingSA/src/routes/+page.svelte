@@ -28,6 +28,18 @@
 
 
 <body>
+  <div class="newslettercontainer">
+    <form on:submit|preventDefault={subscribe} >
+        <div class="paracontainer">
+            <p style="font-weight:bold; font-size:20px;">Subscribe to our Newsletter</p>
+            <p>Get full updates on new properties</p>
+            </div>  
+          
+            <input type="text" placeholder="Your Name" name="name">
+            <input type="text" placeholder="Your email" name="email">
+            <button>Subscribe</button>
+    </form>
+</div>
 
     <div class="container">
         <div class="infocontainer">
@@ -46,18 +58,7 @@
            
 </div>
 ''
-<div class="newslettercontainer">
-    <form on:submit|preventDefault={subscribe} >
-        <div class="paracontainer">
-            <p style="font-weight:bold; font-size:20px;">Subscribe to our Newsletter</p>
-            <p>Get full updates on new properties</p>
-            </div>  
-          
-            <input type="text" placeholder="Your Name" name="name">
-            <input type="text" placeholder="Your email" name="email">
-            <button>Subscribe</button>
-    </form>
-</div>
+
 
 </body>
    
@@ -67,7 +68,7 @@
 
 
 <style>
-   .container{
+  .container{
   background:rgb(44,60,91);
   max-width: 700px;
   width: 90%;
@@ -75,6 +76,7 @@
   border-radius: 15px;
   margin: 15% auto 0;
   padding: 20px;
+  margin-top: 10%;
 }
 
 .container p{
@@ -82,12 +84,13 @@
 }
 
 .container .icons img{
-  margin-left: 20px;
+  margin-left: 50px;
 }
 
 .container .icons{
   margin: 0 auto;
   max-width: 400px;
+  margin-left: 25%;
 }
 
 .infocontainer{
@@ -119,6 +122,7 @@ body{
   border-radius: 15px;
   margin: 5% auto 40px;
   padding: 20px;
+ margin-top: 10%; 
 }
 
 button{

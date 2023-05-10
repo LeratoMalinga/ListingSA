@@ -10,20 +10,22 @@ export const nodes = [() => import('./nodes/0'),
 	() => import('./nodes/7'),
 	() => import('./nodes/8'),
 	() => import('./nodes/9'),
-	() => import('./nodes/10')];
+	() => import('./nodes/10'),
+	() => import('./nodes/11')];
 
 export const server_loads = [];
 
 export const dictionary = {
 	"/": [2],
-	"/AddProperty": [3],
-	"/AgentDashboard": [4],
-	"/ChatMessage": [6],
-	"/Chat": [5],
-	"/TenantDashboard": [9],
-	"/UpdateProperty": [10],
-	"/login": [7],
-	"/register": [8]
+	"/AddProperty": [4],
+	"/AgentDashboard": [5],
+	"/ChatMessage": [7],
+	"/Chat": [6],
+	"/TenantDashboard": [10],
+	"/UpdateProperty": [11],
+	"/about": [3],
+	"/login": [8],
+	"/register": [9]
 };
 
 export const hooks = {

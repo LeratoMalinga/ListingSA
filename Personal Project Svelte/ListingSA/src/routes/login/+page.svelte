@@ -113,8 +113,7 @@ if (userRole === 'Agent') {
      box-sizing: border-box;
  }
  #main {
-     margin-top: 40%;
-     top:40%;
+     margin-top: 50%;
      width: 350px;
      height:fit-content;
      margin: 40px auto;
@@ -208,4 +207,7 @@ if (userRole === 'Agent') {
          background-size:100% 100%;
         
      }
+    .loginformcontainer{
+        margin-top: 10%;
+    }
  </style>

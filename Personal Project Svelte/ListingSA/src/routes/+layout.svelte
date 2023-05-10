@@ -30,7 +30,7 @@
       <div class="links">
         {#if !loggedIn}
           <a href="/">Home</a>
-          <a href="/">About</a>
+          <a href="/about">About</a>
           <a href="/login">Login</a>
         {:else}
         <button on:click={logoutUser}>Logout</button>
