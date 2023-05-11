@@ -56,6 +56,7 @@
   </div>
   
   
+  
   <div class="searchcontainer">
     <h2>Search/Filter</h2>
 	<input type="text" placeholder="Search... price,name,city" bind:value={searchTerm} on:input={handleSearchTermChange} />

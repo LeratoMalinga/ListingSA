@@ -4,6 +4,7 @@ import { getItembyid} from '$lib/api/api';
 import { onMount } from 'svelte';
 import jwtDecode from 'jwt-decode';
 import toast ,{Toaster} from 'svelte-french-toast';
+import BackButton from "$lib/Backbutton.svelte";
 
 export let form;
 
@@ -133,6 +134,9 @@ onMount(getItem);
 
 
 <body>
+  <div class=gobackbutton>
+    <BackButton/>
+</div>
     <div class="registerformcontainer">
         <form  on:submit|preventDefault={subscribe} id="main" >
             <h2>Update Property</h2>
@@ -349,7 +353,7 @@ onMount(getItem);
     button:focus {
         box-shadow: 0px 0px 0px 3px black;
     }
-    
+/*     
              body{
             background-image:  url(/background.jpg);
             background-repeat: no-repeat;
@@ -359,8 +363,10 @@ onMount(getItem);
             padding:0%;
            
         } 
-        .registerformcontainer{
+         */
+    .gobackbutton{
         margin-top: 10%;
-    } 
+        margin-left: 25%;
+    }
     </style>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as yup from 'yup';
     import toast, { Toaster } from 'svelte-french-toast';
+    import BackButton from "$lib/Backbutton.svelte";
 
     export let form;
 
@@ -73,11 +74,14 @@
 <Toaster/>
 
 
+
 <body>
+    <div class=gobackbutton>
+        <BackButton/>
+    </div>
     <div class="registerformcontainer">
         <form  on:submit|preventDefault={subscribe} id="main" >
             <h2>Register</h2>
-        
                 <div class="input-parent">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name"> 
@@ -238,7 +242,9 @@ button:focus {
         background-attachment: fixed; 
         background-size:100% 100%;   
     }
-    .registerformcontainer{
+
+    .gobackbutton{
         margin-top: 10%;
+        margin-left: 25%;
     }
 </style>

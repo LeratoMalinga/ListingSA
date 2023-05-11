@@ -2,6 +2,8 @@
 import jwtDecode from 'jwt-decode';
 import { z } from 'zod';
 import toast ,{Toaster} from 'svelte-french-toast';
+import BackButton from "$lib/Backbutton.svelte";
+
 
 export let form;
 
@@ -120,6 +122,9 @@ console.log(userId)
 
 
 <body>
+  <div class=gobackbutton>
+    <BackButton/>
+</div>
     <div class="registerformcontainer">
         <form  on:submit|preventDefault={subscribe} id="main" >
             <h2>Add Property</h2>
@@ -270,9 +275,7 @@ console.log(userId)
             opacity: 1;
         }
     }
-    .registerformcontainer{
-      margin-top: 10%;
-    }
+   
     h2 {
         text-align: center;
         font-size: 28px;
@@ -338,6 +341,10 @@ console.log(userId)
     }
     button:focus {
         box-shadow: 0px 0px 0px 3px black;
+    }
+    .gobackbutton{
+        margin-top: 10%;
+        margin-left: 25%;
     }
     
 </style>
