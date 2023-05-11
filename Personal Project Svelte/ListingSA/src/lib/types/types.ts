@@ -5,6 +5,7 @@ export interface Item {
     price: string;
     suburb:string;
     type:string;
+    province:string;
     imageBase64:string;
     appUser:appUser;
   }

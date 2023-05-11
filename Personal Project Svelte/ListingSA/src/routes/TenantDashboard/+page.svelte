@@ -32,7 +32,7 @@
       } else {
         const regex = new RegExp(searchTerm, 'i');
         filteredItems = items.filter((item) => regex.test(item.name) || regex.test(item.city) 
-          || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb));
+          || regex.test(item.price) || regex.test(item.type) || regex.test(item.suburb) || regex.test(item.province));
       }
     }
    
