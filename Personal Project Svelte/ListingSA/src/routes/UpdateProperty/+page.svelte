@@ -359,6 +359,8 @@ onMount(getItem);
             padding:0%;
            
         } 
-         
+        .registerformcontainer{
+        margin-top: 10%;
+    } 
     </style>
 

@@ -238,5 +238,7 @@ button:focus {
         background-attachment: fixed; 
         background-size:100% 100%;   
     }
-    
+    .registerformcontainer{
+        margin-top: 10%;
+    }
 </style>

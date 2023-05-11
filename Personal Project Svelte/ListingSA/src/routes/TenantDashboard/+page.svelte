@@ -57,9 +57,36 @@
   
   
   <div class="searchcontainer">
-      <h1>Search/Filter</h1>
-    <input type="text" placeholder="Search..." bind:value={searchTerm} on:input={handleSearchTermChange} />
-  </div>
+    <h2>Search/Filter</h2>
+	<input type="text" placeholder="Search... price,name,city" bind:value={searchTerm} on:input={handleSearchTermChange} />
+
+  <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by Type</option>
+    <option >TownHouse</option>
+    <option >Flat</option>
+    <option >Commune</option>
+  </select>
+
+  <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by City</option>
+    <option >Pretoria</option>
+    <option >Durban</option>
+    <option >Cape Town</option>
+  </select>
+
+  <select bind:value={searchTerm} on:input={handleSearchTermChange}>
+    <option value="">Filter by Province</option>
+    <option >Gauteng</option>
+    <option >Limpopo</option>
+    <option >Free State</option>
+    <option >Western Cape</option>
+    <option >Northeren Cape</option>
+    <option >North West</option>
+    <option >Mpumalanga</option>
+    <option >Kwa-Zulu-Natal</option>
+    <option >Estern Cape</option> 
+  </select>
+</div>
   
   <div class="container">
       {#each paginatedItems as item}
@@ -67,7 +94,7 @@
       <div class="imagecontainer">
         <img src={item.imageBase64} class="imgcontainerproperty" alt ="">
       </div>
-      <p>{item.name} {item.city}</p>
+      <p>{item.name}, {item.city}</p>
       <p>{item.suburb}</p> <p>{item.type}</p>
       <p>R{item.price}</p><br/><br/>
 
@@ -96,22 +123,30 @@
   </div>  
   
   <style>
-  .cardcontainer{
+
+.cardcontainer {
   position: relative;
   width: 250px;
   height: 488px;
   left: 53px;
   margin: 20px;
   margin-left: 5%;
-  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px 15px 0px 0px;
   float: left;
-  }
-  .container{
-      margin-top: 15%;
-  }
+  transition: box-shadow 0.3s ease; /* Add transition only for the box-shadow property */
+}
+
+.cardcontainer:hover {
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.5); /* Change the box shadow on hover */
+  cursor: pointer; /* Change the cursor on hover */
+}
+
+.container {
+  margin-top: 2%;
+}
+
   .headingcontainer{
   background: white;
   width: 500px;
@@ -119,7 +154,7 @@
   margin-left:32%;
   padding: 20px;
   padding-top: 40px;
-  margin-top: 20px;
+  margin-top: 5%;
   border-radius: 4%;
   }
   p{
@@ -169,11 +204,7 @@
           margin-left: 0%;
       }
   
-      .searchcontainer{
-          position: absolute;
-          margin-left: 40%;
-          top: 40%;
-      }
+
 
       .imgcontainerproperty{
         margin-left: 0%;
@@ -181,10 +212,67 @@
         width: 250px;
 height: 230px;
     }
-     .paginationcontainer{
-      position: absolute;
-      margin-top:35%;
-      margin-right: 6%;
-      margin-left: 9%;
-     }
+
+     input {
+  margin-left: 0%;
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.searchcontainer select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  /* Styling the dropdown arrow */
+  .searchcontainer select::after {
+    content: '\25BC'; /* Unicode character for down arrow */
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    pointer-events: none; /* Prevents the arrow from being clickable */
+  }
+
+  /* Styling the dropdown on hover */
+  .searchcontainer select:hover {
+    border-color: #007bff;
+  }
+
+  /* Styling the dropdown when focused */
+  .searchcontainer select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+
+  .searchcontainer > h2 {
+  margin-left: 30%;
+}
+.paginationcontainer {
+  position: relative;
+  margin-top: 36%;
+  margin-right: 6%;
+  margin-left: 35%;
+  margin-bottom: 1%;
+  text-align: center;
+  width: 50%;
+  bottom: 0;
+}
+.searchcontainer{
+        margin-left: 20%;
+        margin-top: 6%;
+    }
   </style>
