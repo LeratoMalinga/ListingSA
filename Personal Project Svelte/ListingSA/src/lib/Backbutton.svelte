@@ -12,6 +12,7 @@
   
   <style>
     .back-button {
+      width: 30px;
       background-color: #09C5A9;
       color: white;
       border: none;
