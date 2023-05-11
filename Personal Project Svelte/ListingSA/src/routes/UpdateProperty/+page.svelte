@@ -266,17 +266,17 @@ onMount(getItem);
         box-sizing: border-box;
     }
     #main {
-        top:30%;
-        width: 350px;
-        height:fit-content;
-        margin: 40px auto;
-        font-family: "Segoe UI", sans-serif;
-        padding: 25px 28px;
-        background: #FFFFFF;
-        border-radius: 4px;
-        border: 1px solid #302d2d;
-        /*animation: popup 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);*/
-    }
+  top: 20%;
+  width: 350px;
+  height: fit-content;
+  margin: 40px auto;
+  font-family: "Segoe UI", sans-serif;
+  padding: 25px 28px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
     @keyframes popup {
         0% {
             transform: scale(0.2);
@@ -353,17 +353,7 @@ onMount(getItem);
     button:focus {
         box-shadow: 0px 0px 0px 3px black;
     }
-/*     
-             body{
-            background-image:  url(/background.jpg);
-            background-repeat: no-repeat;
-            background-attachment: fixed; 
-            background-size:100% 100%;
-            margin:0%;
-            padding:0%;
-           
-        } 
-         */
+    
     .gobackbutton{
         margin-top: 10%;
         margin-left: 25%;
