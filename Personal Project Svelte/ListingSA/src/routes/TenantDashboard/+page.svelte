@@ -96,12 +96,14 @@
       </div>
       <p>{item.name}, {item.city}</p>
       <p>{item.suburb}</p> <p>{item.type}</p>
-      <p>R{item.price}</p><br/><br/>
+      <p>R{item.price}</p><br/>
 
-        <p class="agentUser"></p>{item.appUser.name}
+      <div class="agentcontainer">
+        <p class="agentUser">Agent {item.appUser.name}</p>
         <button class="btncontact" on:click={() => {modalOpen = true,
         agentname =item.appUser.name,
         agentemail=item.appUser.email}}>Contact</button> 
+      </div>     
       </div>
       {:else}
           <li>No items found</li>
@@ -177,13 +179,11 @@
   transition: all 0.2s ease;
   }
 
-  .agentUser{
-  position: absolute;
-  right: 45%;
-  bottom: 90%;
-  margin-left: 10px;
-  
+  .btncontact:hover{
+    cursor: pointer;
+  background: rgb(0, 120, 125);
   }
+  
  
   .imagecontainer{
   width: 250px;
@@ -275,4 +275,11 @@ input:focus {
         margin-left: 20%;
         margin-top: 6%;
     }
+  
+
+   .agentcontainer > p{
+    position: absolute;
+    margin-bottom: 10px;
+   }
+  
   </style>
