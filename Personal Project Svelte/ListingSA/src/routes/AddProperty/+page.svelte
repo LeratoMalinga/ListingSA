@@ -147,13 +147,6 @@ console.log(userId)
                 <input type="text" id="number" name="price">
               </div>
           </div>
-
-          <div class="form-control">
-            <div class="input-parent">
-                <label for="propertyname">Description:</label>
-                <input type="text" id="number" name="description">
-              </div>
-          </div>
            
           <div class="form-control">
             <div class="input-parent">

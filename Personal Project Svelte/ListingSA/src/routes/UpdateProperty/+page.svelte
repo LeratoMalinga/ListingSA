@@ -162,14 +162,6 @@ onMount(getItem);
 
           <div class="form-control">
             <div class="input-parent">
-                <label for="propertyname">Description:</label>
-                <input type="text" id="number" name="description" value={item.description}
-                >
-              </div>
-          </div>
-           
-          <div class="form-control">
-            <div class="input-parent">
                 <label for="province">Select Province:</label>
                 <select name="province" id="province">
                     <option >Gauteng</option>
