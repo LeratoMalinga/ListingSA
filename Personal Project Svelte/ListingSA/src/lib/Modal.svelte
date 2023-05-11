@@ -64,9 +64,8 @@
           <input type="email" bind:value={email} />
           {#if errors.email}<p class="error">{errors.email}</p>{/if}
         </label>
-        <button type="submit">Save</button>
-      </form>
-      <button on:click={closeModal}>Cancel</button>
+        <button type="submit" class="save">Save</button> <button on:click={closeModal} class="cancel">Cancel</button>
+      </form>  
     </div>
   </div>
 {/if}
@@ -98,4 +97,52 @@
     color: red;
     font-size: 0.8em;
   }
+
+  /* Button Styling */
+  button {
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+
+  button.save {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  button.cancel {
+    background-color: red;
+    color: white;
+  }
+  button.cancel:hover {
+    background-color: rgb(109, 4, 4);
+  }
+
+  button.save:hover {
+    background-color: #45a049;
+  }
+
+  /* Input Alignment */
+  form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  form input[type="text"],
+  form input[type="email"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
 </style>
+
+
