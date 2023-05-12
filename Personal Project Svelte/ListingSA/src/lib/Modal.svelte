@@ -14,10 +14,8 @@
   export let email = '';
   export let agentName='';
   export let to = '';
+  export let propertyName = '';
   export let errors = {};
-
-  
-  
 
 
   function closeModal() {
@@ -29,9 +27,8 @@
   }
 
   
-
   export async function saveData() {
-    const data = { to,name, phone, email,agentName };
+    const data = { to,name, phone, email,agentName,propertyName };
    console.log(data)
     try {
       schema.parse(data);
@@ -64,7 +61,7 @@
           <input type="email" bind:value={email} />
           {#if errors.email}<p class="error">{errors.email}</p>{/if}
         </label>
-        <button type="submit" class="save">Save</button> <button on:click={closeModal} class="cancel">Cancel</button>
+        <button type="submit" class="save">Send</button> <button on:click={closeModal} class="cancel">Cancel</button>
       </form>  
     </div>
   </div>

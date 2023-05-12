@@ -13,6 +13,7 @@
   let email = '';
   let agentname='';
   let agentemail= '';
+  let propertyname ='';
   
     let currentPage = 1;
     let pageSize = 4;
@@ -103,7 +104,7 @@
         <p class="agentUser">Agent {item.appUser.name}</p>
         <button class="btncontact" on:click={() => {modalOpen = true,
         agentname =item.appUser.name,
-        agentemail=item.appUser.email}}>Contact</button> 
+        agentemail=item.appUser.email,propertyname=item.name}}>Contact</button> 
       </div>     
       </div>
       {:else}
@@ -112,7 +113,7 @@
       
   </div>
 
-  <Modal isOpen={modalOpen} agentName={agentname} to={agentemail} bind:name bind:phone bind:email />
+  <Modal isOpen={modalOpen} agentName={agentname} to={agentemail} propertyName={propertyname} bind:name bind:phone bind:email />
   
   <div class="paginationcontainer">
       <LightPaginationNav

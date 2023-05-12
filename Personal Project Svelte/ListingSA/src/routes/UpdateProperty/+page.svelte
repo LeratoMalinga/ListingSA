@@ -29,7 +29,6 @@ async function subscribe(event: Event) {
   const itemId = localStorage.getItem('propertyId');
   const item = await getItem();
   const name = data.get('name') as string;
-  const description = data.get('description') as string;
   const price = data.get('price') as string;
   const city = data.get('city') as string;
   const suburb = data.get('suburb') as string;
@@ -48,19 +47,18 @@ async function subscribe(event: Event) {
       imageBase64 = reader.result as string;
       console.log(imageBase64);
       // call the function to add the property after the image has been read
-      updateProperty(name, description, price, city, suburb, province, type, address, imageBase64);
+      updateProperty(name, price, city, suburb, province, type, address, imageBase64);
     };
     reader.onerror = () => {
       console.log('Error while reading the file');
     };
   } else {
     // call the function to add the property if no image has been selected
-    updateProperty(name, description, price, city, suburb, province, type, address, imageBase64);
+    updateProperty(name, price, city, suburb, province, type, address, imageBase64);
   }
 
   async function updateProperty(
     name: string,
-    description: string,
     price: string,
     city: string,
     suburb: string,
@@ -81,7 +79,6 @@ const decodedToken = jwtDecode(token);
 
     const model = {
       name,
-      description,
       province,
       city,
       suburb,
