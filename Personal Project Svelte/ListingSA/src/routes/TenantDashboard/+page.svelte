@@ -1,16 +1,25 @@
 <script lang="ts">
   import { onMount, afterUpdate } from 'svelte';
-    import { fetchItems,sendContactDetails} from '$lib/api/api';
+    import { fetchItems} from '$lib/api/api';
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import Modal from "$lib/Modal.svelte";
     import toast ,{Toaster} from 'svelte-french-toast';
+    import jwtDecode from 'jwt-decode';
 
+
+    const token = localStorage.getItem('token');
+   
+
+    const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
+    const userName = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    
 
   let modalOpen = false;
   let name = '';
   let phone = '';
-  let email = '';
+  let email = userName;
   let agentname='';
   let agentemail= '';
   let propertyname ='';
