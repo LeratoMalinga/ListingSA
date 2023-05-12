@@ -4,22 +4,41 @@
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import Modal from "$lib/Modal.svelte";
-    import toast ,{Toaster} from 'svelte-french-toast';
+    import {Toaster} from 'svelte-french-toast';
     import jwtDecode from 'jwt-decode';
 
+  
 
+  function getEmail(): string {
+  let userName = '';
+  if (typeof localStorage !== 'undefined') {
     const token = localStorage.getItem('token');
-   
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      userName = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    }
+  }
+  return userName;
+}
 
-    const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
-    const userName = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-    
+function getName(): string {
+  let userName = '';
+  if (typeof localStorage !== 'undefined') {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      userName = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+    }
+  }
+  return userName;
+}
 
   let modalOpen = false;
-  let name = '';
-  let phone = '';
-  let email = userName;
+  let name = getName();
+  let phone = ''; 
+  let email = getEmail();
   let agentname='';
   let agentemail= '';
   let propertyname ='';
@@ -38,6 +57,7 @@
   
     function filterItems() {
       if (!searchTerm) {
+
         filteredItems = items;
       } else {
         const regex = new RegExp(searchTerm, 'i');
