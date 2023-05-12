@@ -50,6 +50,6 @@
   margin: 0 auto;
   max-width: 400px;
   margin-left: 25%;
-  margin-top: 10%;
+  margin-top: 7%;
 }
 </style>
