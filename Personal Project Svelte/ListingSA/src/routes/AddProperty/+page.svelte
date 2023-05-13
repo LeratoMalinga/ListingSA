@@ -165,15 +165,18 @@ console.log(userId)
             <div class="input-parent">
                 <label for="city">Select a City:</label>
                 <select name="city" id="city">
-                    <option >Pretoria</option>
-                    <option >Durban</option>
-                    <option >Cape Town</option>
-                    <option >Western Cape</option>
-                    <option >Northeren Cape</option>
-                    <option >North West</option>
-                    <option >Mpumalanga</option>
-                    <option >Kwa-Zulu-Natal</option>
-                    <option >Estern Cape</option>
+                  <option>Pretoria</option>
+                  <option>Durban</option>
+                  <option>Cape Town</option>
+                  <option>Bloemfontein</option>
+                  <option>Johannesburg</option>
+                  <option>Port Elizabeth</option>
+                  <option>East London</option>
+                  <option>Kimberley</option>
+                  <option>Polokwane</option>
+                  <option>Nelspruit</option>
+                  <option>George</option>
+                  
               </div>
         </div>
          
