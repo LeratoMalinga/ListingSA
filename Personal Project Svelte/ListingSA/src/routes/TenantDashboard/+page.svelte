@@ -100,18 +100,9 @@ function getName(): string {
 
   <select  bind:value={searchTerm} on:input={handleSearchTermChange}>
     <option value="">Filter by City</option>
-    <option>Pretoria</option>
-    <option>Durban</option>
-    <option>Cape Town</option>
-    <option>Bloemfontein</option>
-    <option>Johannesburg</option>
-    <option>Port Elizabeth</option>
-    <option>East London</option>
-    <option>Kimberley</option>
-    <option>Polokwane</option>
-    <option>Nelspruit</option>
-    <option>George</option>
-    
+    <option >Pretoria</option>
+    <option >Durban</option>
+    <option >Cape Town</option>
   </select>
 
   <select bind:value={searchTerm} on:input={handleSearchTermChange}>
