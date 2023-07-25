@@ -1,92 +1,64 @@
-<script lang="ts">
-import * as signalR from "@microsoft/signalr";
+<script>
+  import { onMount } from 'svelte';
+  import { startConnection, receiveMessage, sendMessage } from '$lib/signalrservice/signalrService'; // Replace with the correct path to your signalrService.js file
 
+  let sender = 'lmalinga@gmail.com'; // Replace with the actual user's name or identifier
+  let receiver = 'lmalinga@retrorabbit.co.za'; // Replace with the receiver's name or identifier
+  let message = '';
+  let chatMessages = [];
 
-const divMessages: HTMLDivElement = document.querySelector("#divMessages");
-const tbMessage: HTMLInputElement = document.querySelector("#tbMessage");
-const btnSend: HTMLButtonElement = document.querySelector("#btnSend");
-const username = new Date().getTime();
+  // Start the SignalR connection when the component is mounted
+  onMount(async () => {
+    await startConnection();
 
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/ChatHub")
-    .build();
+    // Receive incoming chat messages
+    receiveMessage((sender, message) => {
+      // Add the received message to the chatMessages array
+      chatMessages = [...chatMessages, { sender, message }];
+    });
+  });
 
-connection.on("messageReceived", (username: string, message: string) => {
-  const m = document.createElement("div");
+  async function sendChatMessage() {
+    if (message.trim() !== '') {
+      const chatMessage = {
+        Id: 1, // Replace with an appropriate ID or set dynamically
+        CommunicationId: 1, // Replace with an appropriate ID or set dynamically
+        Message: message,
+        Receiver: receiver,
+        Sender: sender,
+        UserName: sender, // Set the username to the sender for simplicity
+        Timestamp: new Date().toISOString() // Use the current timestamp
+      };
 
-  m.innerHTML = `<div class="message-author">${username}</div><div>${message}</div>`;
+      sendMessage(chatMessage);
 
-  divMessages.appendChild(m);
-  divMessages.scrollTop = divMessages.scrollHeight;
-});
-
-connection.start().catch((err) => document.write(err));
-
-tbMessage.addEventListener("keyup", (e: KeyboardEvent) => {
-  if (e.key === "Enter") {
-    send();
+      message = ''; // Clear the input after sending the message
+    }
   }
-});
-
-btnSend.addEventListener("click", send);
-
-function send() {
-  connection.send("newMessage", username, tbMessage.value)
-    .then(() => (tbMessage.value = ""));
-}
 </script>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>ASP.NET Core SignalR with TypeScript and Webpack</title>
-  </head>
-  <body>
-    <div id="divMessages" class="messages"></div>
-    <div class="input-zone">
-      <label id="lblMessage" for="tbMessage">Message:</label>
-      <input id="tbMessage" class="input-zone-input" type="text" />
-      <button id="btnSend">Send</button>
-    </div>
-  </body>
-</html>
+<main>
+  <h1>Chat</h1>
+
+  <div class="chat-container">  
+    
+  <ul>
+    {#each chatMessages as { sender, message }}
+      <li>{sender}: {message}</li>
+    {/each}
+  </ul>
+
+  <div>
+    <input type="text" bind:value={message} placeholder="Type your message..." />
+    <button on:click={sendChatMessage}>Send</button>
+  </div>
+  </div>
+</main>
 
 <style>
-    *,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-.input-zone {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-}
-
-.input-zone-input {
-  flex: 1;
-  margin-right: 10px;
-}
-
-/* .message-author {
-  font-weight: bold;
-} */
-
-.messages {
-  border: 1px solid #000;
-  margin: 10px;
-  max-height: 300px;
-  min-height: 300px;
-  overflow-y: auto;
-  padding: 5px;
-}
+  
+  .chat-container{
+    margin-top: 20%;
+  }
+  /* Your CSS styles */
 </style>
