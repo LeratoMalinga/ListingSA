@@ -1,24 +1,39 @@
+// signalr-service.js
+
 import * as signalR from '@microsoft/signalr';
 
-const connection = new signalR.HubConnectionBuilder()
-  .withUrl('https://localhost:7011/ChatHub') // Replace with your actual hub URL
-  .build();
+const signalRService = {
+  connection: null,
 
-export async function startConnection() {
-  try {
-    await connection.start();
-    console.log('SignalR connection established.');
-  } catch (err) {
-    console.error('Error starting SignalR connection:', err);
-  }
-}
+  // Initialize the SignalR connection
+  async initialize() {
+    this.connection = new signalR.HubConnectionBuilder()
+      .withUrl('https:/localhost:7011/ChatHub') // Replace with the URL of your ChatHub endpoint
+      .build();
 
-export function receiveMessage(callback) {
-  connection.on('ReceiveMessage', (sender, message) => {
-    callback(sender, message);
-  });
-}
+    try {
+      await this.connection.start();
+      console.log('SignalR connection started successfully.');
+    } catch (err) {
+      console.error('Error starting SignalR connection:', err);
+    }
+  },
 
-export function sendMessage(user, message) {
-  connection.invoke('SendMessage', user, message);
-}
+  // Method to send a message to the SignalR Hub
+  async sendMessage(message) {
+    try {
+      await this.connection.invoke('SendMessageToUser', message);
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  },
+
+  // Method to receive messages from the SignalR Hub
+  onReceiveMessage(callback) {
+    this.connection.on('ReceiveDM', (message) => {
+      callback(message);
+    });
+  },
+};
+
+export default signalRService;
