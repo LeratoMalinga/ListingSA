@@ -35,6 +35,7 @@ function getName(): string {
   return userName;
 }
 
+
   let modalOpen = false;
   let name = getName();
   let phone = ''; 
@@ -42,7 +43,7 @@ function getName(): string {
   let agentname='';
   let agentemail= '';
   let propertyname ='';
-  
+
     let currentPage = 1;
     let pageSize = 4;
   
@@ -50,6 +51,11 @@ function getName(): string {
     let items: Item[] = [];
     let filteredItems: Item[] = [];
   
+    function handleContactClick(recieverUserId: string) {
+    // Redirect to update page with item ID as query parameter
+    localStorage.setItem('recieverUserId',recieverUserId);
+    window.location.href = '/ChatMessage';    
+}
     async function getItems() {
       items = await fetchItems();
       filterItems();
@@ -131,9 +137,10 @@ function getName(): string {
 
       <div class="agentcontainer">
         <p class="agentUser">Agent {item.appUser.name}</p>
-        <button class="btncontact" on:click={() => {modalOpen = true,
+        <!-- <button class="btncontact" on:click={() => {modalOpen = true,
         agentname =item.appUser.name,
-        agentemail=item.appUser.email,propertyname=item.name}}>Contact</button> 
+        agentemail=item.appUser.email,propertyname=item.name}}>Contact</button>  -->
+        <button class="btncontact" on:click={() => handleContactClick(item.appUser.id)}>Contact</button>
       </div>     
       </div>
       {:else}
