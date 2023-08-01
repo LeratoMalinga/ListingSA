@@ -24,7 +24,7 @@ const signalRService = {
 
   async sendMessage(model) {
     try {
-      await this.connection.invoke('SendMessageToUser', model);
+      await this.connection.invoke('SendPrivateMessage', model);
     } catch (err) {
       console.error('Error sending message:', err);
     }
