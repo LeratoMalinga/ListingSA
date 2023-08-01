@@ -1,5 +1,4 @@
 <!-- ChatComponent.svelte -->
-
 <!-- Your Svelte component template -->
 <script lang="ts">
   import { onMount } from 'svelte';
