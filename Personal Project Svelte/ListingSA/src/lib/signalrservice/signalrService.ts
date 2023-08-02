@@ -36,6 +36,12 @@ const signalRService = {
       callback(message);
     });
   },
+  
+  onReceiveChatHistory(callback) {
+    this.connection.on('ReceiveChatHistory', (chatHistory) => {
+      callback(chatHistory);
+    });
+  },
 };
 
 export default signalRService;

@@ -15,6 +15,7 @@
   let recieverUserName = '';
 
   let messages = []; 
+  let receivedMessages = [];
   // Function to get user email from JWT token
   function getSenderUserEmail(): string {
     let userName = '';
@@ -76,12 +77,35 @@
     messages = [...messages, { content: message, sender: true }];
     message = '';
   };
+  
   function scrollToBottom() {
     const chatWindow = document.querySelector('.chat-window');
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }
 
-  // onMount function to run code after the component is mounted in the browser environment
+  const receiveChatHistory = (chatHistory) => {
+  if (Array.isArray(chatHistory) && chatHistory.length > 0) {
+    messages = chatHistory.map((message) => ({
+      content: message.message,
+      sender: message.sender === userId,
+      timestamp: message.timestamp,
+    }));
+    scrollToBottom();
+  } else {
+    console.log('Chat history is empty or not an array:', chatHistory);
+  }
+};
+
+
+  const requestChatHistory = async () => {
+    try {
+      // Call the server-side method to request chat history
+      await signalRService.onReceiveChatHistory(receiveChatHistory);
+    } catch (err) {
+      console.error('Error requesting chat history:', err);
+    }
+  };
+
   onMount(async () => {
     UserId = getSenderUserId();
     email = getSenderUserEmail();
@@ -93,20 +117,26 @@
 
     // Listen for incoming messages
     signalRService.onReceiveMessage((message) => {
-      // Handle the received message here
+      // This callback will be called when a new message is received
       receivedMessage = message;
-      messages = [...messages, { content: message, sender: false }]; // Add the received message to the messages array
-      scrollToBottom();
+      receivedMessages = [...receivedMessages, message]; 
+      // The reactive statement below will handle adding the received message to the messages array
     });
 
-    scrollToBottom();
+    // Request chat history after connecting to the hub
+    await requestChatHistory();
   });
 
-  $: if (receivedMessage) {
-    // Add the received message to the messages array
-    messages = [...messages, { content: receivedMessage, sender: false }];
-    scrollToBottom();
-  }
+  $: if (receivedMessages.length > 0) {
+  // Add the last received message to the messages array
+  const lastReceivedMessage = receivedMessages[receivedMessages.length - 1];
+  messages = [...messages, { content: lastReceivedMessage, sender: false }];
+  scrollToBottom();
+
+  // Clear the receivedMessages array after adding the last received message
+  receivedMessages = [];
+}
+
 </script>
 
 <div class=gobackbutton>
