@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import signalRService from '$lib/signalrservice/signalrService';
   import jwtDecode from 'jwt-decode';
+  import BackButton from "$lib/Backbutton.svelte";
 
 
   let message = '';
@@ -11,6 +12,7 @@
   let UserId = '';
   let email = '';
   let recieverUserId = '';
+  let recieverUserName = '';
 
   let messages = []; 
   // Function to get user email from JWT token
@@ -84,6 +86,7 @@
     UserId = getSenderUserId();
     email = getSenderUserEmail();
     recieverUserId = localStorage.getItem('recieverUserId');
+    recieverUserName = localStorage.getItem('recieverUserName');
 
     // Initialize the SignalR connection
     initializeSignalR();
@@ -106,8 +109,16 @@
   }
 </script>
 
-
+<div class=gobackbutton>
+  <BackButton/>
+</div>
 <main>
+  
+  <!-- User Name -->
+  <div class="user-name">
+    <h3>{recieverUserName}</h3>
+  </div>
+
   <!-- Chat Messages -->
   <div class="chat-window">
     {#each messages as message}
@@ -120,7 +131,7 @@
   <!-- Message Input -->
   <div class="message-input">
     <input type="text" bind:value={message} />
-    <button on:click={sendMessage}>Send Message</button>
+    <button on:click={sendMessage}>Send</button>
   </div>
 </main>
 
@@ -129,19 +140,26 @@
   main {
     display: flex;
     flex-direction: column;
-    height: 80vh; /* Adjust the height as needed */
+    height: 60vh; /* Adjust the height as needed */
     width: 300px; /* Adjust the width as needed */
     margin: 0 auto; /* Center the chat window horizontally */
     padding: 1rem;
+  }
+
+  .user-name {
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 0%;
+    background-color: #07a890;
+    color: white;
   }
 
   .chat-window {
     flex: 1;
     overflow-y: auto;
     padding: 0.5rem;
-    margin-top: 100px; /* Adjust the top margin as needed */
-    background-color: antiquewhite;
-    height: 70vh; /* Adjust the height as needed */
+    background-color: rgb(228, 217, 217);
+    height: 400px; /* Adjust the height as needed */
   }
 
   .message {
@@ -154,7 +172,7 @@
   }
 
   .sent {
-    background-color: #007bff;
+    background-color: #07a890;
     color: #fff;
     align-self: flex-end;
   }
@@ -181,11 +199,16 @@
   button {
     margin-left: 0.5rem;
     padding: 0.3rem 0.7rem;
-    background-color: #007bff;
+    background-color: #07a890;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 0.8rem; /* Adjust the font size as needed */
   }
+
+  .gobackbutton{
+        margin-top: 10%;
+        margin-left: 25%;
+    }
 </style>

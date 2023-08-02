@@ -51,9 +51,10 @@ function getName(): string {
     let items: Item[] = [];
     let filteredItems: Item[] = [];
   
-    function handleContactClick(recieverUserId: string) {
+    function handleContactClick(recieverUserId: string,receiverUserName : string) {
     // Redirect to update page with item ID as query parameter
     localStorage.setItem('recieverUserId',recieverUserId);
+    localStorage.setItem('recieverUserName',receiverUserName);
     window.location.href = '/ChatMessage';    
 }
     async function getItems() {
@@ -140,7 +141,7 @@ function getName(): string {
         <!-- <button class="btncontact" on:click={() => {modalOpen = true,
         agentname =item.appUser.name,
         agentemail=item.appUser.email,propertyname=item.name}}>Contact</button>  -->
-        <button class="btncontact" on:click={() => handleContactClick(item.appUser.id)}>Contact</button>
+        <button class="btncontact" on:click={() => handleContactClick(item.appUser.id,item.appUser.name)}>Contact</button>
       </div>     
       </div>
       {:else}
