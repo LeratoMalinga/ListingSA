@@ -6,6 +6,7 @@
     import Modal from "$lib/Modal.svelte";
     import {Toaster} from 'svelte-french-toast';
     import jwtDecode from 'jwt-decode';
+    import ChatViewButton from "$lib/ChatViewButton.svelte";
 
   
 
@@ -87,6 +88,10 @@ function getName(): string {
     
   </script>
   <Toaster/>
+
+  <div class="ChatViewButton">
+    <ChatViewButton/>
+    </div>
 
   <div class="headingcontainer">
       <h1>Welcome to Your Tenant DashBoard</h1>

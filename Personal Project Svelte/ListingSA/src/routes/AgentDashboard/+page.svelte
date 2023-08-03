@@ -4,6 +4,7 @@
     import type { Item } from '$lib/types/types';
     import { paginate, LightPaginationNav } from 'svelte-paginate';
     import jwtDecode from 'jwt-decode';
+    import ChatViewButton from "$lib/ChatViewButton.svelte";
    
 
     let currentPage = 1;
@@ -77,7 +78,9 @@ function handleUpdate(propertyId: string) {
     $: paginatedItems = paginate({ items: filteredItems, pageSize, currentPage });
       
     </script>
-
+<div class="ChatViewButton">
+<ChatViewButton/>
+</div>
 
 <div class="headingcontainer">
     <h1>Welcome to Your Agent DashBoard</h1>
