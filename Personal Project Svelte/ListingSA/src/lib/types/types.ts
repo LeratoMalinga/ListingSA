@@ -26,12 +26,35 @@ export interface request{
 }
 
 export interface ChatMessage {
-  Id: string;
-  User: string; // Assuming that the 'User' property is a string representation of a GUID (e.g., "64e5ca9d-2be9-44df-9fe5-39412ed11805")
-  UserName?: string; // Optional property denoted by '?'
-  Sender?: string; // Optional property denoted by '?'
-  Receiver?: string; // Optional property denoted by '?'
-  Message?: string; // Optional property denoted by '?'
-  Timestamp: Date; // Assuming 'Timestamp' is a Date type
-  CommunicationId: number;
+  id: string;
+  userName: string;
+  sender: string;
+  receiver: string;
+  message: string;
+  timestamp: string; // Note: Change this to a Date type if possible (e.g., Date)
+  communicationId: string; // Note: Change this to a number type if appropriate (e.g., number)
+  user: {
+    name: string;
+    version: number;
+    createdOn: string; // Note: Change this to a Date type if possible (e.g., Date)
+    claims: any[]; // You may specify a more specific type for claims if you have more information about it
+    roles: string[];
+    logins: any[]; // You may specify a more specific type for logins if you have more information about it
+    tokens: any[]; // You may specify a more specific type for tokens if you have more information about it
+    id: string;
+    userName: string;
+    normalizedUserName: string;
+    email: string;
+    normalizedEmail: string;
+    emailConfirmed: boolean;
+    passwordHash: string;
+    securityStamp: string;
+    concurrencyStamp: string;
+    phoneNumber: string | null;
+    phoneNumberConfirmed: boolean;
+    twoFactorEnabled: boolean;
+    lockoutEnd: string | null; // Note: Change this to a Date type if possible (e.g., Date)
+    lockoutEnabled: boolean;
+    accessFailedCount: number;
+  };
 }

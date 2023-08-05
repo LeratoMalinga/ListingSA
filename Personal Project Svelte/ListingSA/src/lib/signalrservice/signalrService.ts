@@ -22,14 +22,22 @@ const signalRService = {
     }
   },
 
-  async sendMessage(model) {
+  async sendMessage(chatMessage) {
     try {
-      await this.connection.invoke('SendPrivateMessage', model);
+      await this.connection.invoke('SendPrivateMessage', chatMessage);
     } catch (err) {
       console.error('Error sending message:', err);
     }
   },
   
+  async requestChatHistory(userId) {
+    try {
+      await this.connection.invoke('RequestChatHistory');
+    } catch (err) {
+      console.error('Error requesting chat history:', err);
+    }
+  },
+
   // Method to receive messages from the SignalR Hub
   onReceiveMessage(callback) {
     this.connection.on('ReceiveDM', (message) => {
@@ -43,5 +51,6 @@ const signalRService = {
     });
   },
 };
+
 
 export default signalRService;

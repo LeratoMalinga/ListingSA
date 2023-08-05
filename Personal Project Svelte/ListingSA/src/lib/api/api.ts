@@ -1,5 +1,5 @@
 
-import type { Item, request } from '$lib/types/types';
+import type { ChatMessage, Item, request } from '$lib/types/types';
 import { toast, Toaster } from 'svelte-french-toast';
 
 
@@ -91,6 +91,13 @@ export async function sendContactDetails(model:request){
   }
   toast.success('Contact details sent');
 }
+
+export async function getChatHistory(id: string): Promise<ChatMessage[]> {
+  const response = await fetch(`https://localhost:7011/api/Chat/${id}`)
+  const data = await response.json();
+  return data.result; 
+}
+
 
 
 
