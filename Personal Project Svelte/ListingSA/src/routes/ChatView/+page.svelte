@@ -3,12 +3,13 @@
   import signalRService from '$lib/signalrservice/signalrService';
   import BackButton from "$lib/Backbutton.svelte";
   import jwtDecode from 'jwt-decode';
-  import { getChatHistory} from '$lib/api/api';
+  import { getChatHistory,getAppUsersByIds} from '$lib/api/api';
   import type { ChatMessage } from '$lib/types/types';
  
 
   let chats : ChatMessage[] = [];
   let receivers = [];
+  let appusers = [];
   let message = '';
   let messages = []; 
   let receivedMessage ='';
@@ -30,21 +31,57 @@
 
 
   async function requestChatHistory(userId) {
-    try {
-      // Call the server-side method to request chat history for the given chat ID
-      const chatHistory = await getChatHistory(userId);
-    
-      // Store unique users in the receivers array
-      receivers = Array.from(new Set(chatHistory.map(chat => ({
-        userId: chat.user.id,
-        fullName: chat.user.name,
-      }))));
+  try {
+    // Call the server-side method to request chat history for the given chat ID
+    const chatHistory = await getChatHistory(userId);
 
-      chats = chatHistory;
-    } catch (err) {
-      console.error('Error requesting chat history:', err);
-    }
+    // Collect unique sender and receiver IDs from the chat history
+    const allUserIds = new Set([...chatHistory.map(chat => chat.sender), ...chatHistory.map(chat => chat.receiver)]);
+
+    // Convert Set to an array of user IDs
+    const userIdArray = Array.from(allUserIds);
+
+    // Remove the current user's ID from the array
+    const filteredUserIdArray = userIdArray.filter(id => id !== userId);
+
+    // Call your getAppUsers function to get user information for the user IDs
+    const userInfos = await getAppUsersByIds(filteredUserIdArray);
+
+    // Create a map to store user information by user ID
+    const userMap = new Map(userInfos.map(user => [user.id, user]));
+
+    // Process the chat history to include sender and receiver information
+    const processedChatHistory = chatHistory.map(chat => ({
+      ...chat,
+      senderInfo: userMap.get(chat.sender),
+      receiverInfo: userMap.get(chat.receiver)
+    }));
+
+    // Update the chat history with processed data
+    chats = processedChatHistory;
+
+    // Create an array of user IDs from chat history (both sender and receiver)
+    const chatUserIds = new Set([...chatHistory.map(chat => chat.sender), ...chatHistory.map(chat => chat.receiver)]);
+
+    // Filter out the current user's ID from the chatUserIds
+    chatUserIds.delete(userId);
+
+    // Convert the Set of user IDs to an array
+    const chatUserIdsArray = Array.from(chatUserIds);
+
+    // Call your getAppUsers function to get user information for the user IDs
+    const chatUsers = await getAppUsersByIds(chatUserIdsArray);
+
+    // Create an array of receivers with user information
+    receivers = chatUsers.map(user => ({
+      userId: user.id,
+      fullName: user.name
+    }));
+  } catch (err) {
+    console.error('Error requesting chat history:', err);
   }
+}
+
 
   const sendMessage = async () => {
     if (!selectedReceiverId) {
@@ -126,10 +163,12 @@
     // Subscribe to the onReceiveMessage event in the signalR service
   signalRService.onReceiveMessage((message) => {
     // This callback will be called when a new message is received
+    receivedMessage = message;
     receivedMessages = [...receivedMessages, message];
   });
 
 });
+
 
 
 </script>
@@ -145,12 +184,15 @@
     <h3>Chats</h3>
     <div class="chat-list-container">
       <ul>
-        {#each receivers as receiver}
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <li class:selected={selectedReceiverId === receiver.userId} on:click={() => setSelectedReceiver(receiver.userId)}>
-            {receiver.fullName}
-          </li>
-        {/each}
+    {#each receivers as receiver}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <li class:selected={selectedReceiverId === receiver.userId} on:click={() => setSelectedReceiver(receiver.userId)}>
+    {receiver.fullName}
+  </li>
+{/each}
+
+        
+         
       </ul>
     </div>
   </div>
@@ -169,7 +211,7 @@
       {#each receivedMessages as message}
         <li class:sender={!isMessageSentByCurrentUser(message.user.id)}>
           {#if isMessageSentByCurrentUser(message.user.id)}
-            You: {message.message}
+            {message.user.name}: {message.message}
           {:else}
             {message.user.name}: {message.message}
           {/if}
@@ -184,9 +226,6 @@
   </div>
 </div>
   </div>
-
-
-<!-- ... Your existing code ... -->
 
 <style>
   .chat-container {

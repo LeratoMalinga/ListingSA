@@ -1,5 +1,5 @@
 
-import type { ChatMessage, Item, request } from '$lib/types/types';
+import type { ChatMessage, Item, request ,AppUser} from '$lib/types/types';
 import { toast, Toaster } from 'svelte-french-toast';
 
 
@@ -97,6 +97,19 @@ export async function getChatHistory(id: string): Promise<ChatMessage[]> {
   const data = await response.json();
   return data.result; 
 }
+
+export async function getAppUsersByIds(ids: string[]): Promise<AppUser[]> {
+  const queryString = ids.map(id => `ids=${id}`).join('&');
+  const response = await fetch(`https://localhost:7011/api/Authentification/GetAppUsersByIds?${queryString}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user data: ${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 
 
 

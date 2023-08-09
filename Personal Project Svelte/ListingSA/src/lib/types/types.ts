@@ -58,3 +58,28 @@ export interface ChatMessage {
     accessFailedCount: number;
   };
 }
+
+export interface AppUser{
+    name: string;
+    version: number;
+    createdOn: string; // Note: Change this to a Date type if possible (e.g., Date)
+    claims: any[]; // You may specify a more specific type for claims if you have more information about it
+    roles: string[];
+    logins: any[]; // You may specify a more specific type for logins if you have more information about it
+    tokens: any[]; // You may specify a more specific type for tokens if you have more information about it
+    id: string;
+    userName: string;
+    normalizedUserName: string;
+    email: string;
+    normalizedEmail: string;
+    emailConfirmed: boolean;
+    passwordHash: string;
+    securityStamp: string;
+    concurrencyStamp: string;
+    phoneNumber: string | null;
+    phoneNumberConfirmed: boolean;
+    twoFactorEnabled: boolean;
+    lockoutEnd: string | null; // Note: Change this to a Date type if possible (e.g., Date)
+    lockoutEnabled: boolean;
+    accessFailedCount: number;
+}
