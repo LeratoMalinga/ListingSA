@@ -3,22 +3,21 @@
   import signalRService from '$lib/signalrservice/signalrService';
   import BackButton from "$lib/Backbutton.svelte";
   import jwtDecode from 'jwt-decode';
-  import { getChatHistory,getAppUsersByIds} from '$lib/api/api';
-  import type { ChatMessage } from '$lib/types/types';
+  import { getOpenChats,getAppUsersByIds,getChatHistoryBetweenUsers} from '$lib/api/api';
+  import type { ChatMessage,ProcessedChatMessage,OpenChat} from '$lib/types/types';
  
 
   let chats : ChatMessage[] = [];
-  let receivers = [];
-  let appusers = [];
+  let Chathistory : ProcessedChatMessage[] = [];
   let message = '';
   let messages = []; 
   let receivedMessage ='';
   let receivedMessages = [];
+  let OpenChats:OpenChat[] = [];;
   
   let selectedReceiverId = null;
 
 
-  
   const setSelectedReceiver = (receiverId) => {
     selectedReceiverId = receiverId;
     // Load chat history for the selected receiver
@@ -29,59 +28,50 @@
     return messageUserId === userId;
   }
 
-
+  
   async function requestChatHistory(userId) {
   try {
-    // Call the server-side method to request chat history for the given chat ID
-    const chatHistory = await getChatHistory(userId);
+    // Call the server-side method to request open chats for the given user ID
+    const openChats = await getOpenChats(userId);
 
-    // Collect unique sender and receiver IDs from the chat history
-    const allUserIds = new Set([...chatHistory.map(chat => chat.sender), ...chatHistory.map(chat => chat.receiver)]);
-
-    // Convert Set to an array of user IDs
-    const userIdArray = Array.from(allUserIds);
-
-    // Remove the current user's ID from the array
-    const filteredUserIdArray = userIdArray.filter(id => id !== userId);
+    // Create an array of unique user IDs from open chats (excluding the current user)
+    const otherUserIds = [...new Set(openChats.map(chat => (chat.sender === userId) ? chat.receiver : chat.sender))];
 
     // Call your getAppUsers function to get user information for the user IDs
-    const userInfos = await getAppUsersByIds(filteredUserIdArray);
+    const userInfos = await getAppUsersByIds(otherUserIds);
 
     // Create a map to store user information by user ID
     const userMap = new Map(userInfos.map(user => [user.id, user]));
 
-    // Process the chat history to include sender and receiver information
-    const processedChatHistory = chatHistory.map(chat => ({
+    // Iterate over the open chats to add user information
+    const openChatsWithUserInfo = openChats.map(chat => ({
       ...chat,
-      senderInfo: userMap.get(chat.sender),
-      receiverInfo: userMap.get(chat.receiver)
+      otherUserInfo: userMap.get((chat.sender === userId) ? chat.receiver : chat.sender)
     }));
 
-    // Update the chat history with processed data
-    chats = processedChatHistory;
+    // Fetch and process chat history for each open chat
+    for (const openChat of openChatsWithUserInfo) {
+      const chatHistory = await getChatHistoryBetweenUsers(userId, openChat.otherUserInfo.id);
 
-    // Create an array of user IDs from chat history (both sender and receiver)
-    const chatUserIds = new Set([...chatHistory.map(chat => chat.sender), ...chatHistory.map(chat => chat.receiver)]);
-
-    // Filter out the current user's ID from the chatUserIds
-    chatUserIds.delete(userId);
-
-    // Convert the Set of user IDs to an array
-    const chatUserIdsArray = Array.from(chatUserIds);
-
-    // Call your getAppUsers function to get user information for the user IDs
-    const chatUsers = await getAppUsersByIds(chatUserIdsArray);
-
-    // Create an array of receivers with user information
-    receivers = chatUsers.map(user => ({
-      userId: user.id,
-      fullName: user.name
-    }));
+      // Process and store chat history
+      const processedChatHistory: ProcessedChatMessage[] = chatHistory.map(message => ({
+        senderInfo: userMap.get(message.sender),
+        receiverInfo: userMap.get(message.receiver),
+        sender: message.sender,
+        receiver: message.receiver,
+        message: message.message,
+        timestamp: message.timestamp,
+      }));
+      Chathistory = processedChatHistory;
+      // openChat.Chathistory= processedChatHistory;
+    }
+     OpenChats=openChatsWithUserInfo;
+    // Now you have open chats with user information and processed chat history
+    console.log(openChatsWithUserInfo);
   } catch (err) {
     console.error('Error requesting chat history:', err);
   }
 }
-
 
   const sendMessage = async () => {
     if (!selectedReceiverId) {
@@ -103,8 +93,6 @@
     message = '';
   };
   
-
-
   function getSenderUserEmail(): string {
     let userName = '';
     if (typeof localStorage !== 'undefined') {
@@ -169,8 +157,6 @@
 
 });
 
-
-
 </script>
 
 <div class="gobackbutton">
@@ -178,23 +164,19 @@
 </div>
 
 <!-- ... Your existing code ... -->
-
 <div class="chat-container">
   <div class="sidebar">
     <h3>Chats</h3>
     <div class="chat-list-container">
       <ul>
-    {#each receivers as receiver}
+    {#each OpenChats as openchat}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <li class:selected={selectedReceiverId === receiver.userId} on:click={() => setSelectedReceiver(receiver.userId)}>
-    {receiver.fullName}
+  <li class:selected={selectedReceiverId === openchat.otherUserInfo.id} on:click={() => setSelectedReceiver(openchat.otherUserInfo.id)}>
+    {openchat.otherUserInfo.name}
   </li>
 {/each}
-
-        
-         
-      </ul>
-    </div>
+</ul>
+  </div>
   </div>
 
   <div class="chat-history">
@@ -218,8 +200,7 @@
         </li>
       {/each}
     </ul>
-
-    
+ 
   <div class="message-input">
     <input type="text" bind:value={message} />
     <button on:click={sendMessage}>Send</button>

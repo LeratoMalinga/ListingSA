@@ -83,3 +83,23 @@ export interface AppUser{
     lockoutEnabled: boolean;
     accessFailedCount: number;
 }
+
+export interface OpenChat {
+  otherUserInfo: AppUser; // This should match the actual structure of your AppUser type
+  id: string;
+  userName: string;
+  sender: string;
+  receiver: string;
+  message: string;
+  timestamp: string;
+  communicationId: string;
+}
+
+ export interface ProcessedChatMessage {
+  senderInfo: AppUser; 
+  receiverInfo: AppUser;
+  sender: string;
+  receiver: string;
+  message: string;
+  timestamp: string;
+}

@@ -1,5 +1,5 @@
 
-import type { ChatMessage, Item, request ,AppUser} from '$lib/types/types';
+import type { ChatMessage, Item, request ,AppUser, OpenChat} from '$lib/types/types';
 import { toast, Toaster } from 'svelte-french-toast';
 
 
@@ -92,7 +92,7 @@ export async function sendContactDetails(model:request){
   toast.success('Contact details sent');
 }
 
-export async function getChatHistory(id: string): Promise<ChatMessage[]> {
+export async function getOpenChats(id: string): Promise<ChatMessage[]> {
   const response = await fetch(`https://localhost:7011/api/Chat/${id}`)
   const data = await response.json();
   return data.result; 
@@ -108,6 +108,12 @@ export async function getAppUsersByIds(ids: string[]): Promise<AppUser[]> {
 
   const data = await response.json();
   return data;
+}
+
+export async function getChatHistoryBetweenUsers(userId: string, otherUserId: string): Promise<ChatMessage[]> {
+  const response = await fetch(`https://localhost:7011/api/Chat/between-users?userId=${userId}&otherUserId=${otherUserId}`);
+  const data = await response.json();
+  return data; 
 }
 
 
