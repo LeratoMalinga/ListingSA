@@ -18,10 +18,11 @@
   let selectedReceiverId = null;
 
 
-  const setSelectedReceiver = (receiverId) => {
+  const setSelectedReceiver = async (receiverId) => {
     selectedReceiverId = receiverId;
     // Load chat history for the selected receiver
-    requestChatHistory(receiverId);
+    const chatHistory = await getChatHistoryBetweenUsers(userId, receiverId);
+    chats = chatHistory;
   };
 
   function isMessageSentByCurrentUser(messageUserId: string): boolean {
@@ -91,6 +92,7 @@
     await signalRService.sendMessage(chatMessage);
     messages = [...messages, { content: message, sender: true }];
     message = '';
+
   };
   
   function getSenderUserEmail(): string {
@@ -157,6 +159,7 @@
 
 });
 
+
 </script>
 
 <div class="gobackbutton">
@@ -169,14 +172,16 @@
     <h3>Chats</h3>
     <div class="chat-list-container">
       <ul>
-    {#each OpenChats as openchat}
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <li class:selected={selectedReceiverId === openchat.otherUserInfo.id} on:click={() => setSelectedReceiver(openchat.otherUserInfo.id)}>
-    {openchat.otherUserInfo.name}
-  </li>
-{/each}
-</ul>
-  </div>
+        {#each OpenChats as openchat}
+          <!-- svelte-ignore a11y-click-events-have-key-events -->
+          {#if selectedReceiverId !== openchat.otherUserInfo.id}
+            <li class:selected={selectedReceiverId === openchat.otherUserInfo.id} on:click={() => setSelectedReceiver(openchat.otherUserInfo.id)}>
+              {openchat.otherUserInfo.name}
+            </li>
+          {/if}
+        {/each}
+      </ul>
+    </div>    
   </div>
 
   <div class="chat-history">
@@ -193,9 +198,9 @@
       {#each receivedMessages as message}
         <li class:sender={!isMessageSentByCurrentUser(message.user.id)}>
           {#if isMessageSentByCurrentUser(message.user.id)}
-            {message.user.name}: {message.message}
+            {message.message}
           {:else}
-            {message.user.name}: {message.message}
+            {message.message}
           {/if}
         </li>
       {/each}
@@ -281,10 +286,14 @@
   .chat-history li.sender {
     background-color: #aaf0d1; /* Light blue for messages sent by the current user */
     align-self: flex-end;
+    font-size: 16px; /* Increase font size for messages sent by the current user */
+    padding: 10px; /* Add some padding to the message for better readability */
   }
 
   .chat-history li:not(.sender) {
     background-color: #f5f5f5; /* Light gray for messages received from others */
+    font-size: 16px; /* Increase font size for messages received from others */
+    padding: 10px; /* Add some padding to the message for better readability */
   }
 
   .message-input {
