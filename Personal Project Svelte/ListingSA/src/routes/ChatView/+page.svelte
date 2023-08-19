@@ -12,19 +12,15 @@
   let message = '';
   let messages = []; 
   let receivedMessage ='';
-  let receivedMessages = [];
+  let receivedMessages:ChatMessage[] = [];
   let OpenChats:OpenChat[] = [];;
-  
   let selectedReceiverId = null;
+  let UserId = '';
+  let email = '';
+  let name = '';
 
 
-  const setSelectedReceiver = async (receiverId) => {
-    selectedReceiverId = receiverId;
-    // Load chat history for the selected receiver
-    const chatHistory = await getChatHistoryBetweenUsers(userId, receiverId);
-    chats = chatHistory;
-  };
-
+  
   function isMessageSentByCurrentUser(messageUserId: string): boolean {
     return messageUserId === userId;
   }
@@ -74,27 +70,77 @@
   }
 }
 
-  const sendMessage = async () => {
-    if (!selectedReceiverId) {
-      console.error('No receiver selected.'); // Add proper error handling
-      return;
-    }
+async function sendMessage() {
+  if (!selectedReceiverId) {
+    console.error('No receiver selected.'); // Add proper error handling
+    return;
+  }
 
-    const chatMessage = {
-      User: userId, // User GUID or User ID as string
-      UserName: userName, // Optional, if applicable
-      Sender: userId, // Optional, if applicable
-      Receiver: selectedReceiverId, // Optional, if applicable
-      Message: message, // The actual message from the input field
-      // Current timestamp and Communication ID, if applicable
+  const chatMessage = {
+    id: userId,
+    userName: userName,
+    sender: userId,
+    receiver: selectedReceiverId,
+    message: message
+    // Add other properties as needed to match the ChatMessage type
+  };
+
+  try {
+    // Send the message to the server via SignalR
+    await signalRService.sendMessage(chatMessage);
+
+    // Create a new ChatMessage object
+    const newChatMessage: ChatMessage = {
+        id: userId,
+        userName: userName,
+        sender: userId,
+        receiver: selectedReceiverId,
+        message: message,
+        timestamp: '',
+        communicationId: '',
+        user: {
+            name: name,
+            version: 0,
+            createdOn: '',
+            claims: [],
+            roles: [],
+            logins: [],
+            tokens: [],
+            id:UserId,
+            userName: email,
+            normalizedUserName: '',
+            email: email,
+            normalizedEmail: '',
+            emailConfirmed: false,
+            passwordHash: '',
+            securityStamp: '',
+            concurrencyStamp: '',
+            phoneNumber: '',
+            phoneNumberConfirmed: false,
+            twoFactorEnabled: false,
+            lockoutEnd: '',
+            lockoutEnabled: false,
+            accessFailedCount: 0
+        }
     };
 
-    await signalRService.sendMessage(chatMessage);
-    messages = [...messages, { content: message, sender: true }];
-    message = '';
+    // Update the local chat history with the new ChatMessage object
+    chats = [...chats, newChatMessage];
+    message = ''; // Clear the input field
+  } catch (err) {
+    console.error('Error sending message:', err);
+  }
+}
 
+  // Function to load chat history for a selected receiver
+  const setSelectedReceiver = async (receiverId) => {
+    selectedReceiverId = receiverId;
+
+    // If the user is logged in, load their chat history with the selected receiver
+    if (userId) {
+      loadChatHistory();
+    }
   };
-  
   function getSenderUserEmail(): string {
     let userName = '';
     if (typeof localStorage !== 'undefined') {
@@ -108,7 +154,7 @@
     return userName;
   }
 
-  // Function to get user ID from JWT token
+
   function getSenderUserId(): string {
     let id = '';
     if (typeof localStorage !== 'undefined') {
@@ -143,10 +189,22 @@
     await signalRService.initialize(userId, fullName, userName);
   }
 
+  async function loadChatHistory() {
+    try {
+      const chatHistory = await getChatHistoryBetweenUsers(userId, selectedReceiverId);
+      chats = chatHistory;
+    } catch (err) {
+      console.error('Error loading chat history:', err);
+    }
+  }
+
 
   // Subscribe to the onReceiveMessage event in the signalR service
   onMount(() => {
     const userId =getSenderUserId();
+    UserId = getSenderUserId();
+    email = getSenderUserEmail();
+    name=getName();
     requestChatHistory(userId);
     initializeSignalR();
 
@@ -155,11 +213,23 @@
     // This callback will be called when a new message is received
     receivedMessage = message;
     receivedMessages = [...receivedMessages, message];
+
+    chats = [...chats, message];
+    console.log(chats);
   });
+  
+  if (selectedReceiverId) {
+      loadChatHistory();
+    }
 
 });
+let uniqueMessageIds = [];
 
-
+function isNewMessage(message) {
+    // Check if the message's ID is not in the uniqueMessageIds array
+    return !uniqueMessageIds.includes(message.id);
+  }
+  
 </script>
 
 <div class="gobackbutton">
@@ -187,17 +257,17 @@
   <div class="chat-history">
     <ul>
       {#each chats as chat}
-        <li class:sender={isMessageSentByCurrentUser(chat.user.id)}>
-          {#if isMessageSentByCurrentUser(chat.user.id)}
+        <li class:sender={isMessageSentByCurrentUser(chat.sender)}>
+          {#if isMessageSentByCurrentUser(chat.sender)}
             You: {chat.message}
           {:else}
-            {chat.user.name}: {chat.message}
-          {/if}
+           {chat.message}
+          {/if}  
         </li>
       {/each}
       {#each receivedMessages as message}
-        <li class:sender={!isMessageSentByCurrentUser(message.user.id)}>
-          {#if isMessageSentByCurrentUser(message.user.id)}
+        <li class:sender={!isMessageSentByCurrentUser(message.sender)}>
+          {#if isMessageSentByCurrentUser(message.sender)}
             {message.message}
           {:else}
             {message.message}

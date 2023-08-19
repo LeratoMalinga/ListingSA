@@ -11,6 +11,7 @@
   let receivedMessage = '';
   let UserId = '';
   let email = '';
+  let name = '';
   let recieverUserId = '';
   let recieverUserName = '';
 
@@ -109,9 +110,10 @@
   onMount(async () => {
     UserId = getSenderUserId();
     email = getSenderUserEmail();
+    name=getName();
     recieverUserId = localStorage.getItem('recieverUserId');
     recieverUserName = localStorage.getItem('recieverUserName');
-
+     name
     // Initialize the SignalR connection
     initializeSignalR();
 
