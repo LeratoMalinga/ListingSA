@@ -4,7 +4,7 @@
   import BackButton from "$lib/Backbutton.svelte";
   import jwtDecode from 'jwt-decode';
   import { getOpenChats,getAppUsersByIds,getChatHistoryBetweenUsers} from '$lib/api/api';
-  import type { ChatMessage,ProcessedChatMessage,OpenChat} from '$lib/types/types';
+  import type { ChatMessage,ProcessedChatMessage,OpenChat,UniqueUserInfo} from '$lib/types/types';
  
 
   let chats : ChatMessage[] = [];
@@ -18,6 +18,8 @@
   let UserId = '';
   let email = '';
   let name = '';
+  // Create an array to store unique user names and IDs
+  let OpenChatUsers : UniqueUserInfo[]= [];
 
 
   
@@ -46,25 +48,23 @@
       otherUserInfo: userMap.get((chat.sender === userId) ? chat.receiver : chat.sender)
     }));
 
-    // Fetch and process chat history for each open chat
-    for (const openChat of openChatsWithUserInfo) {
-      const chatHistory = await getChatHistoryBetweenUsers(userId, openChat.otherUserInfo.id);
+   const uniqueUsers=[];
+  for (const openchat of openChatsWithUserInfo) {
+  const userId = openchat.otherUserInfo.id;
+  const userName = openchat.otherUserInfo.name;
+  
+  // Check if the user ID is not already in the array
+  const userExists = uniqueUsers.some(user => user.id === userId);
+  
+  if (!userExists) {
+    uniqueUsers.push({ id: userId, name: userName });
+  }
 
-      // Process and store chat history
-      const processedChatHistory: ProcessedChatMessage[] = chatHistory.map(message => ({
-        senderInfo: userMap.get(message.sender),
-        receiverInfo: userMap.get(message.receiver),
-        sender: message.sender,
-        receiver: message.receiver,
-        message: message.message,
-        timestamp: message.timestamp,
-      }));
-      Chathistory = processedChatHistory;
-      // openChat.Chathistory= processedChatHistory;
-    }
-     OpenChats=openChatsWithUserInfo;
-    // Now you have open chats with user information and processed chat history
-    console.log(openChatsWithUserInfo);
+}
+ 
+  OpenChats=openChatsWithUserInfo;
+  OpenChatUsers =uniqueUsers;
+  console.log(OpenChatUsers);
   } catch (err) {
     console.error('Error requesting chat history:', err);
   }
@@ -209,79 +209,76 @@ async function sendMessage() {
     initializeSignalR();
 
     // Subscribe to the onReceiveMessage event in the signalR service
-  signalRService.onReceiveMessage((message) => {
-    // This callback will be called when a new message is received
-    receivedMessage = message;
-    receivedMessages = [...receivedMessages, message];
+    signalRService.onReceiveMessage((message) => {
+  // This callback will be called when a new message is received
 
+  if (isMessageSentByCurrentUser(message.sender)) {
+    // If the message was sent by the current user, update the chats variable
     chats = [...chats, message];
-    console.log(chats);
+  } else {
+    // If the message was received from the other user, update receivedMessages
+    receivedMessages = [...receivedMessages, message];
+  }
+
   });
   
   if (selectedReceiverId) {
       loadChatHistory();
     }
-
 });
-let uniqueMessageIds = [];
 
-function isNewMessage(message) {
-    // Check if the message's ID is not in the uniqueMessageIds array
-    return !uniqueMessageIds.includes(message.id);
-  }
-  
+
 </script>
 
 <div class="gobackbutton">
   <BackButton />
 </div>
 
-<!-- ... Your existing code ... -->
 <div class="chat-container">
   <div class="sidebar">
     <h3>Chats</h3>
     <div class="chat-list-container">
       <ul>
-        {#each OpenChats as openchat}
+        {#each OpenChatUsers as openchat}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          {#if selectedReceiverId !== openchat.otherUserInfo.id}
-            <li class:selected={selectedReceiverId === openchat.otherUserInfo.id} on:click={() => setSelectedReceiver(openchat.otherUserInfo.id)}>
-              {openchat.otherUserInfo.name}
+          {#if selectedReceiverId !== openchat.id}
+            <li class:selected={selectedReceiverId === openchat.id} on:click={() => setSelectedReceiver(openchat.id)}>
+              {openchat.name}
             </li>
           {/if}
         {/each}
       </ul>
     </div>    
   </div>
-
+  
   <div class="chat-history">
     <ul>
       {#each chats as chat}
         <li class:sender={isMessageSentByCurrentUser(chat.sender)}>
           {#if isMessageSentByCurrentUser(chat.sender)}
-            You: {chat.message}
+             You {chat.message}
           {:else}
-           {chat.message}
+            {chat.message} 
           {/if}  
         </li>
       {/each}
       {#each receivedMessages as message}
         <li class:sender={!isMessageSentByCurrentUser(message.sender)}>
           {#if isMessageSentByCurrentUser(message.sender)}
-            {message.message}
+            {message.message} 
           {:else}
-            {message.message}
+            {message.message} 
           {/if}
         </li>
       {/each}
     </ul>
- 
+  
   <div class="message-input">
     <input type="text" bind:value={message} />
     <button on:click={sendMessage}>Send</button>
   </div>
 </div>
-  </div>
+</div>
 
 <style>
   .chat-container {

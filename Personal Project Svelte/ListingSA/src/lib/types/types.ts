@@ -103,3 +103,8 @@ export interface OpenChat {
   message: string;
   timestamp: string;
 }
+
+export interface UniqueUserInfo{
+  id:any;
+  name: string;
+}
