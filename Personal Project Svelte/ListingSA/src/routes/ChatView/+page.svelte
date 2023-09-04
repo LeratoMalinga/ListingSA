@@ -8,10 +8,8 @@
  
 
   let chats : ChatMessage[] = [];
-  let Chathistory : ProcessedChatMessage[] = [];
   let message = '';
-  let messages = []; 
-  let receivedMessage ='';
+
   let receivedMessages:ChatMessage[] = [];
   let OpenChats:OpenChat[] = [];;
   let selectedReceiverId = null;
@@ -21,7 +19,7 @@
   // Create an array to store unique user names and IDs
   let OpenChatUsers : UniqueUserInfo[]= [];
 
-
+console.log(chats);
   
   function isMessageSentByCurrentUser(messageUserId: string): boolean {
     return messageUserId === userId;
@@ -81,7 +79,8 @@ async function sendMessage() {
     userName: userName,
     sender: userId,
     receiver: selectedReceiverId,
-    message: message
+    message: message,
+    timestamp: new Date().toISOString()
     // Add other properties as needed to match the ChatMessage type
   };
 
@@ -96,7 +95,7 @@ async function sendMessage() {
         sender: userId,
         receiver: selectedReceiverId,
         message: message,
-        timestamp: '',
+        timestamp: new Date().toISOString(),
         communicationId: '',
         user: {
             name: name,
@@ -124,8 +123,8 @@ async function sendMessage() {
         }
     };
 
-    // Update the local chat history with the new ChatMessage object
     chats = [...chats, newChatMessage];
+    console.log(chats);
     message = ''; // Clear the input field
   } catch (err) {
     console.error('Error sending message:', err);
@@ -193,6 +192,7 @@ async function sendMessage() {
     try {
       const chatHistory = await getChatHistoryBetweenUsers(userId, selectedReceiverId);
       chats = chatHistory;
+      console.log(chats);
     } catch (err) {
       console.error('Error loading chat history:', err);
     }
@@ -215,6 +215,7 @@ async function sendMessage() {
   if (isMessageSentByCurrentUser(message.sender)) {
     // If the message was sent by the current user, update the chats variable
     chats = [...chats, message];
+
   } else {
     // If the message was received from the other user, update receivedMessages
     receivedMessages = [...receivedMessages, message];
@@ -256,14 +257,14 @@ async function sendMessage() {
       {#each chats as chat}
         <li class:sender={isMessageSentByCurrentUser(chat.sender)}>
           {#if isMessageSentByCurrentUser(chat.sender)}
-             You {chat.message}
+            {chat.message}
           {:else}
             {chat.message} 
           {/if}  
         </li>
       {/each}
       {#each receivedMessages as message}
-        <li class:sender={!isMessageSentByCurrentUser(message.sender)}>
+        <li class:sender={isMessageSentByCurrentUser(message.sender)}>
           {#if isMessageSentByCurrentUser(message.sender)}
             {message.message} 
           {:else}
@@ -283,20 +284,23 @@ async function sendMessage() {
 <style>
   .chat-container {
     display: flex;
-    background-color: #f0f8ea; /* Light green background color */
+    background-color: #e8f7f4; /* Light green background color */
     padding: 16px;
     border-radius: 8px;
-    max-width: 800px;
+    max-width: 600px;
+    max-height: 400px;
     margin: 0 auto;
     margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   .sidebar {
     flex: 1;
-    background-color: #eaf8f0; /* Lighter green for the sidebar */
+    background-color: #07a890; /* Lighter green for the sidebar */
     border-radius: 8px;
     padding: 16px;
     max-width: 200px;
+    color: #fff;
   }
 
   .sidebar h3 {
@@ -321,8 +325,9 @@ async function sendMessage() {
   }
 
   .sidebar li:hover {
-    background-color: #d2f1d4; /* Slightly darker green on hover */
+    background-color: #caf9f3; /* Slightly darker green on hover */
     border-radius: 4px;
+    color: black;
   }
 
   .gobackbutton {
@@ -351,14 +356,15 @@ async function sendMessage() {
   }
 
   .chat-history li.sender {
-    background-color: #aaf0d1; /* Light blue for messages sent by the current user */
+    background-color: #07a890;
+    color:  #fff; /* Light blue for messages sent by the current user */
     align-self: flex-end;
     font-size: 16px; /* Increase font size for messages sent by the current user */
     padding: 10px; /* Add some padding to the message for better readability */
   }
 
   .chat-history li:not(.sender) {
-    background-color: #f5f5f5; /* Light gray for messages received from others */
+    background-color:  #f0f0f0; /* Light gray for messages received from others */
     font-size: 16px; /* Increase font size for messages received from others */
     padding: 10px; /* Add some padding to the message for better readability */
   }
@@ -377,15 +383,15 @@ async function sendMessage() {
   }
 
   .message-input button {
-    margin-left: 8px;
+    margin-left: 10px;
     padding: 8px 16px;
-    background-color: #4caf50; /* Green button color */
+    background-color: #07a890;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   .message-input button:hover {
-    background-color: #45a049; /* Slightly darker green on hover */
+    background-color: #10c3a8; /* Slightly darker green on hover */
   }
 </style>

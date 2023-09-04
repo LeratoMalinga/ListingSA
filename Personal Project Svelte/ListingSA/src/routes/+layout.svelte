@@ -54,12 +54,14 @@
         margin-left:auto;
         margin-top: 0px;
         margin-right: 0%;
+        text-decoration: none;
         
     }
     a {
         margin-left: 40px;
         margin-bottom: 20px;
         color: black;
+        text-decoration: none;
     
         
     }
@@ -90,8 +92,7 @@
     color: black;;
     text-decoration: underline;
     font-size: 16px;
+    text-decoration: none;
   }
-  button:hover {
-    color: rgb(30, 38, 161);
-  }
+ 
 </style>

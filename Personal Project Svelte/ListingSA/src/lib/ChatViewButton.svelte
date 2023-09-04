@@ -18,17 +18,20 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: #3cb371; /* Darker green color for the button */
+      background-color:rgb(0,150,155); /* Darker green color for the button */
       color: #fff;
       cursor: pointer;
       position: fixed; /* Set the position to fixed */
-      top: 10px;
-      right: 10px;
+      top: 3%;
+      right: 15%;
       box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     }
   
     /* Adjust the size and color of the icon as needed */
     .notification-button i {
       font-size: 24px;
+      color: #fff;
     }
+
+
   </style>

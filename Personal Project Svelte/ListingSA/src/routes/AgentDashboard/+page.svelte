@@ -349,4 +349,7 @@ img{
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
   }
 
+.ChatViewButton{
+  margin-left: 50%;
+}
 </style>

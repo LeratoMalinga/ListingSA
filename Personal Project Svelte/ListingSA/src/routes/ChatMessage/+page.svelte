@@ -71,7 +71,8 @@
       UserName: email, // Optional, if applicable
       Sender: UserId, // Optional, if applicable
       Receiver: recieverUserId, // Optional, if applicable
-      Message: message, // The actual message from the input field // Current timestamp// Communication ID, if applicable
+      Message: message,
+      timestamp: new Date().toISOString() // The actual message from the input field // Current timestamp// Communication ID, if applicable
     };
 
     await signalRService.sendMessage(chatMessage);
@@ -190,7 +191,7 @@
     flex: 1;
     overflow-y: auto;
     padding: 0.5rem;
-    background-color: rgb(228, 217, 217);
+    background-color:rgb(96.1%, 96.1%, 96.1%);;
     height: 400px; /* Adjust the height as needed */
   }
 

@@ -173,21 +173,24 @@ onMount(getItem);
               </div>
         </div>
 
+       
         <div class="form-control">
-            <div class="input-parent">
-                <label for="city">Select a City:</label>
-                <select name="city" id="city">
-                    <option >Pretoria</option>
-                    <option >Durban</option>
-                    <option >Cape Town</option>
-                    <option >Western Cape</option>
-                    <option >Northeren Cape</option>
-                    <option >North West</option>
-                    <option >Mpumalanga</option>
-                    <option >Kwa-Zulu-Natal</option>
-                    <option >Estern Cape</option>
-              </div>
-        </div>
+          <div class="input-parent">
+              <label for="city">Select a City:</label>
+              <select name="city" id="city"  value={item.city}>
+                  <option value="Pretoria">Pretoria</option>
+                  <option value="Durban">Durban</option>
+                  <option value="Cape Town">Cape Town</option>
+                  <option value="Johannesburg">Johannesburg</option>
+                  <option value="Bloemfontein">Bloemfontein</option>
+                  <option value="Port Elizabeth">Port Elizabeth</option>
+                  <option value="Kimberley">Kimberley</option>
+                  <option value="Nelspruit">Nelspruit</option>
+                  <option value="Pietermaritzburg">Pietermaritzburg</option>
+              </select>
+          </div>
+      </div>
+      
          
         <div class="form-control">
             <div class="input-parent">
