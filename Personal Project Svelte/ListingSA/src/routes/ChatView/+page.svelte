@@ -217,6 +217,7 @@ async function sendMessage() {
     chats = [...chats, message];
 
   } else {
+    chats = [...chats, message];
     // If the message was received from the other user, update receivedMessages
     receivedMessages = [...receivedMessages, message];
   }
@@ -263,21 +264,12 @@ async function sendMessage() {
           {/if}  
         </li>
       {/each}
-      {#each receivedMessages as message}
-        <li class:sender={isMessageSentByCurrentUser(message.sender)}>
-          {#if isMessageSentByCurrentUser(message.sender)}
-            {message.message} 
-          {:else}
-            {message.message} 
-          {/if}
-        </li>
-      {/each}
     </ul>
-  
-  <div class="message-input">
-    <input type="text" bind:value={message} />
-    <button on:click={sendMessage}>Send</button>
-  </div>
+
+    <div class="message-input">
+      <input type="text" bind:value={message} />
+      <button on:click={sendMessage}>Send</button>
+    </div>
 </div>
 </div>
 
@@ -372,7 +364,6 @@ async function sendMessage() {
   .message-input {
     display: flex;
     align-items: center;
-    margin-top: 16px;
   }
 
   .message-input input {
