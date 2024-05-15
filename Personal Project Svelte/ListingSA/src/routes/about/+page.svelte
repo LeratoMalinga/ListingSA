@@ -2,13 +2,13 @@
 <div class="container">
     <div class="infocontainer">
     <p style="font-weight:bold; font-size:20px; margin-left:39%;">About us</p>
-    <p style="font-weight:bold; font-size:20px; color:green;">Listing SA</p>
+    <p style="font-weight:bold; font-size:20px; color:white;">Listing SA</p>
     <p>Welcome to Your Listing Website! We are dedicated to providing you with the best platform for finding and listing various items.</p>
       <p>Our mission is to connect Agents and Tenants in a convenient and user-friendly manner, offering a wide range of categories and listings to suit your needs.</p>
     </div>  
 
     <div>
-        <h3 style="color:green;">Contact Us</h3>
+        <h3 style="color:white;">Contact Us</h3>
       <p>If you have any questions, feedback, or suggestions, we would love to hear from you. Please feel free to reach out to us using the contact information below:</p>
       <ul>
         <li style="color:white;">Email: info@yourlistingwebsite.com</li>

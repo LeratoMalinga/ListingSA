@@ -52,7 +52,7 @@
             return window.location.href = "/login"
          } 
          else {
-            toast.error('Server Error');
+            toast.error('Account already exists');
          }
 
         } catch (error) {
