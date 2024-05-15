@@ -28,6 +28,7 @@
 declare module '$env/static/private' {
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
+	export const BAZEL_SH: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
 	export const COLOR: string;
 	export const COLORTERM: string;
@@ -37,6 +38,9 @@ declare module '$env/static/private' {
 	export const ComSpec: string;
 	export const DriverData: string;
 	export const EDITOR: string;
+	export const EFC_19952: string;
+	export const FPS_BROWSER_APP_PROFILE_STRING: string;
+	export const FPS_BROWSER_USER_PROFILE_STRING: string;
 	export const GIT_ASKPASS: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
@@ -46,6 +50,7 @@ declare module '$env/static/private' {
 	export const LOCALAPPDATA: string;
 	export const LOGONSERVER: string;
 	export const NODE: string;
+	export const NODE_ENV: string;
 	export const NODE_EXE: string;
 	export const NPM_CLI_JS: string;
 	export const npm_command: string;
@@ -64,20 +69,14 @@ declare module '$env/static/private' {
 	export const npm_lifecycle_event: string;
 	export const npm_lifecycle_script: string;
 	export const npm_node_execpath: string;
-	export const npm_package_dev: string;
-	export const npm_package_dev_optional: string;
-	export const npm_package_engines_node: string;
-	export const npm_package_integrity: string;
 	export const npm_package_json: string;
 	export const npm_package_name: string;
-	export const npm_package_optional: string;
-	export const npm_package_peer: string;
-	export const npm_package_resolved: string;
 	export const npm_package_version: string;
 	export const NPM_PREFIX_NPM_CLI_JS: string;
 	export const NUMBER_OF_PROCESSORS: string;
+	export const NVM_HOME: string;
+	export const NVM_SYMLINK: string;
 	export const OneDrive: string;
-	export const OneDriveConsumer: string;
 	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
 	export const OS: string;
 	export const Path: string;
@@ -109,6 +108,7 @@ declare module '$env/static/private' {
 	export const VSCODE_GIT_IPC_HANDLE: string;
 	export const windir: string;
 	export const ZES_ENABLE_SYSMAN: string;
+	export const __COMPAT_LAYER: string;
 }
 
 /**
@@ -140,6 +140,7 @@ declare module '$env/dynamic/private' {
 	export const env: {
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
+		BAZEL_SH: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
 		COLOR: string;
 		COLORTERM: string;
@@ -149,6 +150,9 @@ declare module '$env/dynamic/private' {
 		ComSpec: string;
 		DriverData: string;
 		EDITOR: string;
+		EFC_19952: string;
+		FPS_BROWSER_APP_PROFILE_STRING: string;
+		FPS_BROWSER_USER_PROFILE_STRING: string;
 		GIT_ASKPASS: string;
 		HOME: string;
 		HOMEDRIVE: string;
@@ -158,6 +162,7 @@ declare module '$env/dynamic/private' {
 		LOCALAPPDATA: string;
 		LOGONSERVER: string;
 		NODE: string;
+		NODE_ENV: string;
 		NODE_EXE: string;
 		NPM_CLI_JS: string;
 		npm_command: string;
@@ -176,20 +181,14 @@ declare module '$env/dynamic/private' {
 		npm_lifecycle_event: string;
 		npm_lifecycle_script: string;
 		npm_node_execpath: string;
-		npm_package_dev: string;
-		npm_package_dev_optional: string;
-		npm_package_engines_node: string;
-		npm_package_integrity: string;
 		npm_package_json: string;
 		npm_package_name: string;
-		npm_package_optional: string;
-		npm_package_peer: string;
-		npm_package_resolved: string;
 		npm_package_version: string;
 		NPM_PREFIX_NPM_CLI_JS: string;
 		NUMBER_OF_PROCESSORS: string;
+		NVM_HOME: string;
+		NVM_SYMLINK: string;
 		OneDrive: string;
-		OneDriveConsumer: string;
 		ORIGINAL_XDG_CURRENT_DESKTOP: string;
 		OS: string;
 		Path: string;
@@ -221,6 +220,7 @@ declare module '$env/dynamic/private' {
 		VSCODE_GIT_IPC_HANDLE: string;
 		windir: string;
 		ZES_ENABLE_SYSMAN: string;
+		__COMPAT_LAYER: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: string]: string | undefined;
 	}

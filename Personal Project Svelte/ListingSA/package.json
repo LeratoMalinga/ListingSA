@@ -12,11 +12,32 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/kit": "^1.0.0",
+		"clean-webpack-plugin": "4.0.0",
+		"css-loader": "6.7.3",
+		"html-webpack-plugin": "5.5.0",
+		"mini-css-extract-plugin": "2.7.5",
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
+		"svelte-paginate": "^0.1.0",
+		"ts-loader": "9.4.2",
 		"tslib": "^2.4.1",
-		"typescript": "^4.9.3",
-		"vite": "^4.0.0"
+		"typescript": "4.9.5",
+		"vite": "^4.0.0",
+		"webpack": "5.76.2",
+		"webpack-cli": "5.0.1"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@aspnet/signalr": "^1.0.27",
+		"@microsoft/signalr": "^7.0.4",
+		"@types/node": "^18.15.3",
+		"jwt-decode": "^3.1.2",
+		"mkcert": "^1.5.1",
+		"pusher-js": "^8.0.1",
+		"react-toastify": "^9.1.2",
+		"svelte-french-toast": "^1.0.3",
+		"svelte-toastify": "^0.0.27",
+		"yup": "^1.0.2",
+		"zod": "^3.20.6"
+	}
 }
